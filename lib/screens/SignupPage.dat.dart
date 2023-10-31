@@ -9,6 +9,11 @@ class SignupPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var idController = TextEditingController();
+    var passwordController = TextEditingController();
+    var nameController = TextEditingController();
+    var passwordApproveController = TextEditingController();
+
     return Scaffold(
       body: Center(
         child: SingleChildScrollView(
@@ -26,29 +31,35 @@ class SignupPage extends StatelessWidget {
                 child: Column(
                   children: [
                     TextField(
-                      onChanged: (value) => controller.name.value = value,
+                      controller: nameController,
+                      // onChanged: (value) => controller.name.value = value,
                       decoration: const InputDecoration(labelText: "이름"),
                     ),
                     const SizedBox(height: 20),
                     TextField(
-                      onChanged: (value) => controller.userID.value = value,
+                      controller: idController,
+                      // onChanged: (value) => controller.userID.value = value,
                       decoration: const InputDecoration(labelText: "아이디"),
                     ),
                     const SizedBox(height: 20),
                     TextField(
-                      onChanged: (value) => controller.password.value = value,
+                      controller: passwordController,
+                      // onChanged: (value) => controller.password.value = value,
                       obscureText: true,
                       decoration: const InputDecoration(labelText: "비밀번호"),
                     ),
                     const SizedBox(height: 20),
                     TextField(
-                      onChanged: (value) => controller.passwordApprove.value = value,
+                      controller: passwordApproveController,
+                      // onChanged: (value) => controller.passwordApprove.value = value,
                       obscureText: true,
                       decoration: const InputDecoration(labelText: "비밀번호 확인"),
                     ),
                     const SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: () {
+                        SignupController.instance.register(
+                            idController.text.trim(), passwordController.text.trim());
                         // TODO: 회원가입 로직을 여기에 구현하세요
                         Get.snackbar("회원가입 성공", "로그인 페이지로 돌아갑니다.",
                         duration: const Duration(seconds: 4),
@@ -60,6 +71,7 @@ class SignupPage extends StatelessWidget {
                         backgroundColor: Colors.deepPurple.withOpacity(0.1),
 
                         ); // 간단한 알림
+                    
                         Get.to(() => LoginPage()); // 로그인 페이지로 이동
                       },
                       child: const Text("회원가입"),

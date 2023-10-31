@@ -1,34 +1,54 @@
+import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:software_engineering/screens/LoginPage.dart';
+import 'package:software_engineering/screens/welcom.dart';
 
 class SignupController extends GetxController {
-  // 아이디, 비밀번호, 이름 등의 상태를 관리
-  var name = ''.obs;
-  var userID = ''.obs;
-  var password = ''.obs;
-  var passwordApprove = ''.obs;
+  // var userID= ''.obs;
+  static SignupController instance = Get.find();
+  late Rx<User?> _user;
+  FirebaseAuth authentication = FirebaseAuth.instance;
 
-  // 회원가입 로직. 현재는 데모 상태입니다.
-  // 필요에 따라서 실제 로직으로 대체해야 합니다.
-  void signup() {
-    // 비밀번호 확인
-    if(password.value != passwordApprove.value) {
-      Get.snackbar("에러", "비밀번호가 일치하지 않습니다.");
-      return;
+  // @override
+  // void onReady() {
+  //   super.onReady();
+  //   _user = Rx<User?>(authentication.currentUser);
+  //   _user.bindStream(authentication.userChanges());
+  //   ever(_user, _moveToPage);
+  // }
+
+  _moveToPage(User? user) {
+    if (user == null) {
+      Get.offAll(() => LoginPage());
+    } else {
+      Get.offAll(() => WelcomePage());
     }
-
-    // TODO: 실제 회원가입 로직을 여기에 추가하세요.
-    // 예: API 호출을 통한 회원가입 처리
-
-    Get.snackbar("성공", "회원가입 요청이 전송되었습니다.");
   }
 
-  @override
-  void onInit() {
-    super.onInit();
+  void register(String email, password) async {
+    try {
+      await authentication.createUserWithEmailAndPassword(
+          email: email, password: password);
+    } catch (e) {
+      Get.snackbar(
+        "Error message",
+        "User message",
+        backgroundColor: Colors.red,
+        snackPosition: SnackPosition.BOTTOM,
+        titleText: Text(
+          "Registration is failed",
+          style: TextStyle(color: Colors.white),
+        ),
+        messageText: Text(
+          e.toString(),
+          style: TextStyle(color: Colors.white),
+        ),
+      );
+    }
   }
 
-  @override
-  void onClose() {
-    super.onClose();
+  void logout() {
+    authentication.signOut();
   }
 }
