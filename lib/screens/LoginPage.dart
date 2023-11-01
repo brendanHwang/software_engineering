@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:software_engineering/controllers/LoginController.dart';
 import 'package:software_engineering/screens/SignupPage.dat.dart';
-
-
+import 'package:software_engineering/screens/welcom.dart';
 
 class LoginPage extends StatelessWidget {
   final LoginController controller = Get.put(LoginController());
+  var idController = TextEditingController();
+  var passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -27,18 +28,23 @@ class LoginPage extends StatelessWidget {
                 child: Column(
                   children: [
                     TextField(
-                      onChanged: (value) => controller.userID.value = value,
+                      // onChanged: (value) => controller.userID.value = value,
+                      controller: idController,
                       decoration: const InputDecoration(labelText: "아이디"),
                     ),
                     const SizedBox(height: 20),
                     TextField(
-                      onChanged: (value) => controller.password.value = value,
+                      // onChanged: (value) => controller.password.value = value,
+                      controller: passwordController,
                       obscureText: true,
                       decoration: const InputDecoration(labelText: "비밀번호"),
                     ),
                     const SizedBox(height: 20),
                     ElevatedButton(
-                      onPressed: controller.login,
+                      onPressed: () {
+                        LoginController.instance.login(idController.text.trim(),
+                            passwordController.text.trim());
+                      },
                       child: const Text("로그인"),
                     ),
                     const SizedBox(height: 50),
@@ -48,9 +54,7 @@ class LoginPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 10),
                     TextButton(
-                      onPressed: () => {
-                        Get.to(() => SignupPage() )
-                      },
+                      onPressed: () => {Get.to(() => SignupPage())},
                       child: const Text("아직 회원가입을 안하셨나요?"),
                     ),
                   ],
