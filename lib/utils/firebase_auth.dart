@@ -1,8 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
+import 'package:software_engineering/constants/AppString.dart';
 import 'package:software_engineering/controllers/LoginController.dart';
 import 'package:software_engineering/controllers/SignupController.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
+
 
 Future<bool> firebaseSignup() async {
   bool success = false;
@@ -28,23 +31,25 @@ Future<bool> firebaseSignup() async {
     success = true;
   } on FirebaseAuthException catch (e) {
     if (e.code == 'weak-password') {
-      Get.snackbar(signupCheckSnackTitle, "비밀번호가 너무 약합니다.");
+      Get.snackbar(AppString.signupCheckSnackTitle, "비밀번호가 너무 약합니다.");
     } else if (e.code == 'email-already-in-use') {
-      Get.snackbar(signupCheckSnackTitle, "이미 존재하는 계정입니다.");
+      Get.snackbar(AppString.signupCheckSnackTitle, "이미 존재하는 계정입니다.");
     } else {
-      Get.snackbar(signupCheckSnackTitle, e.toString());
+      Get.snackbar(AppString.signupCheckSnackTitle, e.toString());
     }
   } catch (e) {
     // 기타 예외 처리
-    Get.snackbar(signupCheckSnackTitle, "회원가입에 실패했습니다.");
-    // print(e);
+    Get.snackbar(AppString.signupCheckSnackTitle, "회원가입에 실패했습니다.");
   }
   return success;
 }
 
+
+
+
 Future<bool> firebaseLogin() async {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  LoginController loginController = Get.find();
+  UserController loginController = Get.find();
   try {
     // Firebase를 사용하여 이메일과 비밀번호로 사용자 로그인
     UserCredential userCredential = await _auth.signInWithEmailAndPassword(
@@ -53,13 +58,6 @@ Future<bool> firebaseLogin() async {
     // 사용자 로그인 성공
     return true;
   } on FirebaseAuthException catch (e) {
-    if (e.code == 'user-not-found') {
-      Get.snackbar("로그인 실패", "등록되지 않은 사용자입니다.");
-    } else if (e.code == 'wrong-password') {
-      Get.snackbar("로그인 실패", "잘못된 비밀번호입니다.");
-    } else {
-      Get.snackbar("로그인 실패", e.message!); // 에러 메시지 출력
-    }
     return false;
   } catch (e) {
     // 기타 예외 처리

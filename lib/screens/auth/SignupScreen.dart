@@ -62,17 +62,6 @@ class SignupScreen extends StatelessWidget {
                     ElevatedButton(
                       onPressed: () {
                         signupController.signup();
-                        // TODO: 회원가입 로직을 여기에 구현하세요
-                        Get.snackbar("회원가입 성공", "로그인 페이지로 돌아갑니다.",
-                        duration: const Duration(seconds: 4),
-                        //  상단에 공간 확보
-                        snackPosition: SnackPosition.TOP,
-                        // 상단 margin
-                        margin: const EdgeInsets.all(8.0),
-                        //  스낵바의 배경색
-                        backgroundColor: Colors.deepPurple.withOpacity(0.1),
-                        ); // 간단한 알림
-                        Get.to(() => LoginScreen()); // 로그인 페이지로 이동
                       },
                       child: const Text("회원가입"),
                     ),

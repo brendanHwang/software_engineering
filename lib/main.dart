@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:software_engineering/controllers/LoginController.dart';
 import 'package:software_engineering/screens/AuthenticationWrapper.dart';
 // import 'package:software_engineering/controllers/LoginController.dart';
 // import 'package:software_engineering/controllers/SignupController.dart';
@@ -22,6 +23,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    Get.lazyPut(() => UserController());
+
+
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'software engineering',
