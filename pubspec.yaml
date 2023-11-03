@@ -38,8 +38,9 @@ dependencies:
   firebase_core:
   firebase_auth:
   firebase_storage:
-  cloud_firestore:
-  get:
+  cloud_firestore: 
+  get: 
+  logger:
 
 dev_dependencies:
   flutter_test:
