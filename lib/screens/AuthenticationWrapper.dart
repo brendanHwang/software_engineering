@@ -16,7 +16,7 @@ class AuthenticationWrapper extends StatelessWidget {
           if (user == null) {
             return LoginScreen();  // 사용자가 로그인하지 않은 경우 로그인 화면 표시
           }
-          return const SearchScreen(); // 사용자가 로그인하는 경우 홈 화면 표시
+          return SearchScreen(); // 사용자가 로그인하는 경우 홈 화면 표시
         }
 
         return const Scaffold(
