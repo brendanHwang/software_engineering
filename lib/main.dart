@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
       title: 'software engineering',
       theme: ThemeData(
 
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Color(0xB1E5FB)),
         useMaterial3: true,
       ),
       home: const AuthenticationWrapper(),
