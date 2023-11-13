@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:software_engineering/controllers/LoginController.dart';
 import 'package:software_engineering/screens/AuthenticationWrapper.dart';
+import 'package:software_engineering/screens/MainPage.dart';
 // import 'package:software_engineering/controllers/LoginController.dart';
 // import 'package:software_engineering/controllers/SignupController.dart';
 import 'package:software_engineering/screens/auth/LoginScreen.dart';
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const AuthenticationWrapper(),
+      home: MainPage(),
     );
   }
 }
