@@ -25,6 +25,9 @@ class MainPage extends StatelessWidget {
                   children: [
                     Expanded(
                       child: TextField(
+                        onChanged: (value) {
+                          var userInput = value; //사용자가 입력하는 값이 담김.
+                        },
                         decoration: InputDecoration(
                           hintText: '검색어를 입력하세요',
                           border: OutlineInputBorder(
