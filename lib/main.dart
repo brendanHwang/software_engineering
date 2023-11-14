@@ -4,6 +4,12 @@ import 'package:get/get.dart';
 import 'package:software_engineering/constants/AppColor.dart';
 import 'package:software_engineering/controllers/AppSearchController.dart';
 import 'package:software_engineering/controllers/LoginController.dart';
+
+import 'package:software_engineering/screens/AuthenticationWrapper.dart';
+import 'package:software_engineering/screens/ContentsInfoScreen.dart';
+// import 'package:software_engineering/controllers/LoginController.dart';
+// import 'package:software_engineering/controllers/SignupController.dart';
+import 'package:software_engineering/screens/auth/LoginScreen.dart';
 import 'package:software_engineering/screens/SearchScreen.dart';
 import 'firebase_options.dart';
 
@@ -25,7 +31,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     Get.lazyPut(() => AppSearchController());
     Get.lazyPut(() => UserController());
-
 
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
