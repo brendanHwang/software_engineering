@@ -37,7 +37,7 @@ class MainPage extends StatelessWidget {
                           suffixIcon: GestureDetector(
                             onTap: () {
                               // 돋보기 아이콘을 눌렀을 때의 동작
-                              //Get.to(() => searchscreen페이지()); // 이동
+                              //Get.to(() => SearchScreen()); // 이동
                             },
                             child: IconButton( //돋보기 아이콘
                                 icon: Icon(Icons.search),
