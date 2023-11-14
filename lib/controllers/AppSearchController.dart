@@ -9,6 +9,12 @@ class AppSearchController extends GetxController {
   final sortValue = '최신순'.obs;
   final searchHistory = <String>[].obs;
 
+  Rx<Content>? selectedContent;
+
+  void selectContent(Content content) {
+    selectedContent = content.obs;
+  }
+
   void search(String keyword) {
     // TODO: 실제로 firebase를 호출하는 함수를 구현해야됨 아직은 hard coding
     searchedContents.value = AppConst.contents
