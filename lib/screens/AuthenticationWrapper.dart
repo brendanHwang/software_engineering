@@ -2,6 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:software_engineering/screens/SearchScreen.dart';
 import 'package:software_engineering/screens/auth/LoginScreen.dart';
+import 'package:software_engineering/screens/upload/UploadScreen.dart';
+import 'package:software_engineering/screens/upload/WriteScreen.dart';
+
 
 class AuthenticationWrapper extends StatelessWidget {
   const AuthenticationWrapper({Key? key}) : super(key: key);
