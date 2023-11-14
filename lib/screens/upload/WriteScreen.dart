@@ -82,14 +82,10 @@ class WriteScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 20),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
+                  Row(mainAxisAlignment: MainAxisAlignment.end, children: [
                     Text(
                       "*은 필수 입력 란입니다.",
-                      style: TextStyle(
-                          fontSize: 20,
-                          color: Color(0xFF737373)),
+                      style: TextStyle(fontSize: 20, color: Color(0xFF737373)),
                     ),
                   ]),
                   SizedBox(
@@ -102,6 +98,10 @@ class WriteScreen extends StatelessWidget {
                   )),
                   SizedBox(
                     height: 20,
+                  ),
+                  const Text(
+                    "자료 유형 선택",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   ToggleButtons(
                     onPressed: (int index) {},
@@ -134,36 +134,48 @@ class WriteScreen extends StatelessWidget {
                   ),
                   const TextField(
                       decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: '학과*',
-                      )),
+                    border: OutlineInputBorder(),
+                    labelText: '학과*',
+                  )),
                   SizedBox(
                     height: 20,
                   ),
                   const TextField(
                       decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: '자료 내용*',
-                      )),
+                    border: OutlineInputBorder(),
+                    labelText: '자료 내용*',
+                  )),
                   SizedBox(
                     height: 20,
                   ),
                   const TextField(
                       decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: '교수명*',
-                      )),
+                    border: OutlineInputBorder(),
+                    labelText: '교수명',
+                  )),
                   SizedBox(
                     height: 20,
                   ),
                   const TextField(
                       decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: '자료의 년도*',
-                      )),
+                    border: OutlineInputBorder(),
+                    labelText: '자료의 년도',
+                  )),
                   SizedBox(
                     height: 20,
                   ),
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        primary: const Color(0xFF2260FF),
+                      ),
+                      child: const Text(
+                        "Upload",
+                        style: TextStyle(fontSize: 20, color: Colors.white),
+                      ),
+                    )
+                  ])
                 ],
               ),
             ),
