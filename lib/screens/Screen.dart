@@ -23,24 +23,20 @@ class _ScreenState extends State<Screen> {
         preferredSize: Size.fromHeight(AppSize.navigationTabHeight),
         child: CustomAppBar(),
       ),
-      body: Column(
-        children: [
-          Container(
-            width: Get.width,
-            height: Get.height - AppSize.navigationTabHeight,
-            padding: const EdgeInsets.only(
-                top: AppPadding.topPadding,
-                left: AppPadding.horizontalPadding,
-                right: AppPadding.horizontalPadding),
-            child: widget.isScrollable
-                ? SingleChildScrollView(
-                    child: widget.child,
-                  )
-                : SizedBox(
-              width: double.infinity,
-                child: widget.child),
-          ),
-        ],
+      body: Container(
+        width: Get.width,
+          height: Get.height - AppSize.navigationTabHeight,
+        padding: const EdgeInsets.only(
+            top: AppPadding.topPadding,
+            left: AppPadding.horizontalPadding,
+            right: AppPadding.horizontalPadding),
+        child: widget.isScrollable
+            ? SingleChildScrollView(
+                child: widget.child,
+              )
+            : SizedBox(
+          width: double.infinity,
+            child: widget.child),
       ),
     );
   }
