@@ -3,10 +3,10 @@ import 'package:get/get.dart';
 import 'package:software_engineering/controllers/PwChangeController.dart';
 import 'package:software_engineering/screens/auth/LoginScreen.dart';
 
-class PwchangeScreenPw extends StatelessWidget {
+class PwChangeScreen extends StatelessWidget {
   final PwChangeController pwChangeController = Get.put(PwChangeController());
 
-  PwchangeScreenPw({super.key});
+  PwChangeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,12 +29,13 @@ class PwchangeScreenPw extends StatelessWidget {
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
                   children: [
+
                     TextField(
                       controller: passwordController,
                       onChanged: (value) =>
                           pwChangeController.user.value.password = value,
                       obscureText: true,
-                      decoration: const InputDecoration(labelText: "비밀번호"),
+                      decoration: const InputDecoration(labelText: "새로운 비밀번호"),
                     ),
                     const SizedBox(height: 20),
                     TextField(

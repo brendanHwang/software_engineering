@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:software_engineering/constants/AppColor.dart';
 import 'package:software_engineering/constants/AppPadding.dart';
 import 'package:software_engineering/constants/AppSize.dart';
+import 'package:software_engineering/screens/SearchScreen.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({super.key});
@@ -31,7 +32,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             color: Color(AppColor.iconColor),
             size: AppSize.homeIconsSize,
           ),
-          onPressed: () => Get.back(),
+          onPressed: () => Get.to(() => SearchScreen())
         ),
       ),
       actions: _buildActions(),

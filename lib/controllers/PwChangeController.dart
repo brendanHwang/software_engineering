@@ -1,8 +1,6 @@
 import 'package:get/get.dart';
 import 'package:software_engineering/models/UserModel.dart';
-import 'package:software_engineering/screens/AuthenticationWrapper.dart';
-import 'package:software_engineering/utils/firebase_auth.dart';
-import 'package:software_engineering/screens/auth/PasswordChangeScressn(pw).dart';
+import 'package:software_engineering/screens/auth/PwChangeScreen.dart';
 
 
 
@@ -18,8 +16,12 @@ class PwChangeController extends GetxController {
     // 먼저, 입력된 값들이 유효한지 확인합니다.
   }
   Future<void> sendUrl() async {
-    // 먼저, 입력된 값들이 유효한지 확인합니다.
-    if (user.value.validInput())
-      Get.to(() => PwchangeScreenPw());
+
+    if (user.value.email.isNotEmpty) {
+      // TODO : 이메일로 비밀번호 변경 url 보내기
+      Get.to(() => PwChangeScreen());
+    }else{
+      Get.snackbar("전송 불가", "이메일을 입력해주세요");
+    }
   }
 }

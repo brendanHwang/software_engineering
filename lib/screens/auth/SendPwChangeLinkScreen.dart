@@ -4,11 +4,11 @@ import 'package:software_engineering/controllers/PwChangeController.dart';
 import 'package:software_engineering/screens/auth/LoginScreen.dart';
 
 
-class PwChangeScreen extends StatelessWidget {
+class SendPwChangeLinkScreen extends StatelessWidget {
   final PwChangeController pwChangeController = Get.put(PwChangeController());
 
 
-  PwChangeScreen({super.key});
+  SendPwChangeLinkScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
