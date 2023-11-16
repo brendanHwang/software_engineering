@@ -8,8 +8,12 @@ class Screen extends StatefulWidget {
   final Widget child;
   final bool isScrollable;
   final bool hasFloatingButton;
+  final PreferredSize? appBar;
 
-  const Screen({Key? key, required this.child, this.isScrollable = true, this.hasFloatingButton = true})
+  const Screen({Key? key, required this.child, this.isScrollable = true, this.hasFloatingButton = true, this.appBar = const PreferredSize(
+    preferredSize: Size.fromHeight(AppSize.navigationTabHeight),
+    child: CustomAppBar(),
+  ) })
       : super(key: key);
 
   @override
@@ -20,10 +24,7 @@ class _ScreenState extends State<Screen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const PreferredSize(
-        preferredSize: Size.fromHeight(AppSize.navigationTabHeight),
-        child: CustomAppBar(),
-      ),
+      appBar: widget.appBar,
       body: Container(
         width: Get.width,
           height: Get.height - AppSize.navigationTabHeight,
@@ -37,6 +38,7 @@ class _ScreenState extends State<Screen> {
               )
             : SizedBox(
           width: double.infinity,
+            height: double.infinity,
             child: widget.child),
       ),
 
