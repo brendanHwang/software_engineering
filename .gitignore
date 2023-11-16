@@ -47,7 +47,6 @@ app.*.map.json
 
 
 # 소공 프로젝트
-#/build
 pubspec.lock
 analysis_options.yaml
 .dart_tool

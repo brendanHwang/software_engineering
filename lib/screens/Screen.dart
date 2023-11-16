@@ -7,8 +7,9 @@ import 'package:software_engineering/widgets/Screen/CustomAppBar.dart';
 class Screen extends StatefulWidget {
   final Widget child;
   final bool isScrollable;
+  final bool hasFloatingButton;
 
-  const Screen({Key? key, required this.child, this.isScrollable = true})
+  const Screen({Key? key, required this.child, this.isScrollable = true, this.hasFloatingButton = true})
       : super(key: key);
 
   @override
@@ -38,6 +39,18 @@ class _ScreenState extends State<Screen> {
           width: double.infinity,
             child: widget.child),
       ),
+
+      floatingActionButton: widget.hasFloatingButton? FloatingActionButton(
+        backgroundColor: Colors.black, // 배경색: 검은색
+        onPressed: () {
+          // 버튼을 눌렀을 때의 추가적인 동작
+          //Get.to(() => WritingPage()); // WritingPage로 이동??
+        },
+        child: Icon(
+          Icons.add, // 돋보기 아이콘
+          color: Colors.white, // 아이콘 색상
+        ),
+      ) : null,
     );
   }
 }

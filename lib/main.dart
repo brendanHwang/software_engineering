@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:software_engineering/constants/AppColor.dart';
 import 'package:software_engineering/controllers/AppSearchController.dart';
 import 'package:software_engineering/controllers/LoginController.dart';
+import 'package:software_engineering/screens/AuthenticationWrapper.dart';
 
 import 'package:software_engineering/screens/SearchScreen.dart';
 import 'package:software_engineering/screens/auth/LoginScreen.dart';
@@ -35,7 +36,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(AppColor.mainColor)),
         useMaterial3: true,
       ),
-      home: LoginScreen(),
+      home: const AuthenticationWrapper(),
     );
   }
 }
