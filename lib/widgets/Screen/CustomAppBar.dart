@@ -7,7 +7,10 @@ import 'package:software_engineering/screens/MainPage.dart';
 import 'package:software_engineering/screens/SearchScreen.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const CustomAppBar({super.key});
+  final hasAppBarLogo;
+
+  const CustomAppBar({super.key, this.hasAppBarLogo = true});
+
 
   @override
   Widget build(BuildContext context) {
@@ -19,10 +22,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       backgroundColor: const Color(0xFFB1E5FB),
       elevation: 0,
-      title: Image.asset(
+      title: hasAppBarLogo
+          ? Image.asset(
         'assets/images/logo2-removebg.png',
-        height: AppSize.navigationTabHeight * 0.8,
-      ),
+        height: 100,
+      )
+          : null,
       centerTitle: true,
       toolbarHeight: AppSize.navigationTabHeight,
       leading: Padding(

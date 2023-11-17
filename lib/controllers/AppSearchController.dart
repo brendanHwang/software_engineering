@@ -16,11 +16,10 @@ class AppSearchController extends GetxController {
   }
 
   void search(String keyword) {
-    if(keyword.length <2) {
+    if (keyword.length < 2) {
       Get.snackbar('검색어 오류', '검색어는 2글자 이상이어야 합니다.');
       return;
     }
-
 
     // TODO: 실제로 firebase를 호출하는 함수를 구현해야됨 아직은 hard coding
     searchedContents.value = AppConst.contents
@@ -42,24 +41,21 @@ class AppSearchController extends GetxController {
   void sort() {
     var sortedList = List<Content>.from(filteredContents); // 새 리스트를 생성합니다.
 
-
     if (sortValue.value == '최신순') {
       // 최신순으로 정렬합니다.
       sortedList.sort((a, b) => b.uploadDateTime.compareTo(a.uploadDateTime));
-      print('최신순 정렬');
-      for (var i = 0; i < sortedList.length; i++) {
-        print('${sortedList[i].title}:  ${sortedList[i].uploadDateTime}');
-      }
+      // print('최신순 정렬');
+      // for (var i = 0; i < sortedList.length; i++) {
+      //   print('${sortedList[i].title}:  ${sortedList[i].uploadDateTime}');
     } else if (sortValue.value == '리뷰순') {
       // 리뷰 점수 순으로 정렬합니다.
       sortedList
           .sort((a, b) => b.totalReviewScore().compareTo(a.totalReviewScore()));
-      print('리뷰순 정렬');
-      for (var i = 0; i < sortedList.length; i++) {
-        print('${sortedList[i].title}:  ${sortedList[i].totalReviewScore()}');
-      }
+      // print('리뷰순 정렬');
+      // for (var i = 0; i < sortedList.length; i++) {
+      //   print('${sortedList[i].title}:  ${sortedList[i].totalReviewScore()}');
+      // }
     }
-
     filteredContents.assignAll(sortedList);
   }
 }

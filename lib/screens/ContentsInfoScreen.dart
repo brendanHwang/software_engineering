@@ -3,8 +3,8 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:software_engineering/constants/AppString.dart';
 import 'package:software_engineering/models/Content.dart';
 import 'package:software_engineering/screens/Screen.dart';
-import 'package:software_engineering/widgets/SearchScreen/IconReviewButtons.dart';
-import 'package:software_engineering/widgets/SearchScreen/PayButton.dart';
+import 'package:software_engineering/widgets/SearchScreen/IconReviewView.dart';
+import 'package:software_engineering/widgets/PayButton.dart';
 
 class ContentsInfoScreen extends StatelessWidget {
   const ContentsInfoScreen({super.key, required this.content});
@@ -55,7 +55,7 @@ class ContentsInfoScreen extends StatelessWidget {
               ),
               Row(
                 children: [
-                  IconReviewButtons(
+                  IconReviewView(
                       like: content.getReviewString(AppString.like),
                       normal: content.getReviewString(AppString.normal),
                       dislike: content.getReviewString(AppString.dislike)),

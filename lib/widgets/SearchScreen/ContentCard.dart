@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 import 'package:software_engineering/constants/AppString.dart';
 import 'package:software_engineering/models/Content.dart';
 import 'package:software_engineering/screens/ContentsInfoScreen.dart';
-import 'package:software_engineering/widgets/SearchScreen/IconReviewButtons.dart';
-import 'package:software_engineering/widgets/SearchScreen/PayButton.dart';
+import 'package:software_engineering/widgets/SearchScreen/IconReviewView.dart';
+import 'package:software_engineering/widgets/PayButton.dart';
 
 class ContentCard extends StatelessWidget {
   const ContentCard({Key? key, required this.index, required this.content})
@@ -50,7 +50,7 @@ class ContentCard extends StatelessWidget {
           ),
 
           const Spacer(),
-          IconReviewButtons(
+          IconReviewView(
               like: content.getReviewString(AppString.like),
               normal: content.getReviewString(AppString.normal),
               dislike: content.getReviewString(AppString.dislike)),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:software_engineering/constants/AppString.dart';
 
-class IconReviewButtons extends StatelessWidget {
-  const IconReviewButtons({Key? key, required this.like, required this.normal, required this.dislike}) : super(key: key);
+class IconReviewView extends StatelessWidget {
+  const IconReviewView({Key? key, required this.like, required this.normal, required this.dislike}) : super(key: key);
   final String like;
   final String normal;
   final String dislike;
