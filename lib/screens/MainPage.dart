@@ -9,6 +9,7 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Screen(
+      hasFloatingButton: true,
       isScrollable: false,
       appBar: null,
       child: Column(
