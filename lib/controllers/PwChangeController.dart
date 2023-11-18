@@ -1,8 +1,11 @@
+import 'dart:html';
+
 import 'package:get/get.dart';
 import 'package:software_engineering/models/UserModel.dart';
-import 'package:software_engineering/screens/auth/PwChangeScreen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:software_engineering/utils/firebase_auth.dart';
 
-
+final firebaseAuth = FirebaseAuth.instance;
 
 class PwChangeController extends GetxController {
   Rx<UserModel> user = UserModel(name: '', email: '', password: '').obs;
@@ -10,18 +13,13 @@ class PwChangeController extends GetxController {
   // 회원가입 로직. 현재는 데모 상태입니다.
   // 필요에 따라서 실제 로직으로 대체해야 합니다.
 
-
-  // 비동기 회원가입 메서드
-  Future<void> pwChange() async {
-    // 먼저, 입력된 값들이 유효한지 확인합니다.
-  }
-  Future<void> sendUrl() async {
-
-    if (user.value.email.isNotEmpty) {
-      // TODO : 이메일로 비밀번호 변경 url 보내기
-      Get.to(() => PwChangeScreen());
-    }else{
-      Get.snackbar("전송 불가", "이메일을 입력해주세요");
+  @override
+  Future<String> resetPassword(String email) async {
+    try {
+      String message = await firebasePwChange(email);
+      return message;
+    } catch (e) {
+      return '오류 발생", "문제가 발생했습니다: $e';
     }
   }
 }
