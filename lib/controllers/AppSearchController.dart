@@ -15,10 +15,10 @@ class AppSearchController extends GetxController {
     selectedContent = content.obs;
   }
 
-  void search(String keyword) {
+  bool search(String keyword) {
     if (keyword.length < 2) {
       Get.snackbar('검색어 오류', '검색어는 2글자 이상이어야 합니다.');
-      return;
+      return false;
     }
 
     // TODO: 실제로 firebase를 호출하는 함수를 구현해야됨 아직은 hard coding
@@ -28,6 +28,7 @@ class AppSearchController extends GetxController {
     filter();
     sort();
     searchHistory.addIf(!searchHistory.contains(keyword), keyword);
+    return true;
   }
 
   void filter() {
