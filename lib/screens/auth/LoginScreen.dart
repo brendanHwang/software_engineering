@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:software_engineering/controllers/LoginController.dart';
+import 'package:software_engineering/screens/auth/SendPwChangeLinkScreen.dart';
 import 'package:software_engineering/screens/auth/SignupScreen.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -49,7 +50,9 @@ class LoginScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 50),
                     TextButton(
-                      onPressed: () => {},
+                      onPressed: () => {
+                        Get.to(SendPwChangeLinkScreen())
+                      },
                       child: const Text("비밀번호를 잊으셨나요?"),
                     ),
                     const SizedBox(height: 10),
