@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 
-class IconReviewView extends StatelessWidget {
-  const IconReviewView({Key? key, required this.like, required this.normal, required this.dislike}) : super(key: key);
+class IconReviewButton extends StatelessWidget {
+  const IconReviewButton(
+      {Key? key,
+      required this.like,
+      required this.normal,
+      required this.dislike})
+      : super(key: key);
   final String like;
   final String normal;
   final String dislike;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -15,7 +21,14 @@ class IconReviewView extends StatelessWidget {
       padding: const EdgeInsets.all(10),
       child: Row(
         children: [
-          const Icon(Icons.tag_faces_outlined, size: 40, color: Colors.black),
+          IconButton(
+            icon: const Icon(Icons.tag_faces_outlined, size: 40, color: Colors.black),
+            onPressed: () {},
+            style: ButtonStyle(
+              padding: MaterialStateProperty.all(EdgeInsets.zero),
+              minimumSize: MaterialStateProperty.all(Size.zero),
+            )
+          ),
           const SizedBox(
             width: 15,
           ),
@@ -27,8 +40,15 @@ class IconReviewView extends StatelessWidget {
           const SizedBox(
             width: 15,
           ),
-          const Icon(Icons.sentiment_neutral_outlined,
-              size: 40, color: Colors.black),
+          IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.sentiment_neutral_outlined,
+                  size: 40, color: Colors.black),
+              style: ButtonStyle(
+                padding: MaterialStateProperty.all(EdgeInsets.zero),
+                minimumSize: MaterialStateProperty.all(Size.zero),
+              )
+          ),
           const SizedBox(
             width: 15,
           ),
@@ -40,8 +60,15 @@ class IconReviewView extends StatelessWidget {
           const SizedBox(
             width: 15,
           ),
-          const Icon(Icons.sentiment_dissatisfied_outlined,
-              size: 40, color: Colors.black),
+          IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.sentiment_dissatisfied_outlined,
+                  size: 40, color: Colors.black),
+              style: ButtonStyle(
+                padding: MaterialStateProperty.all(EdgeInsets.zero),
+                minimumSize: MaterialStateProperty.all(Size.zero),
+              )),
+
           const SizedBox(
             width: 15,
           ),

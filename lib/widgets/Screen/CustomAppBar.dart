@@ -4,13 +4,16 @@ import 'package:software_engineering/constants/AppColor.dart';
 import 'package:software_engineering/constants/AppPadding.dart';
 import 'package:software_engineering/constants/AppSize.dart';
 import 'package:software_engineering/screens/MainPage.dart';
+import 'package:software_engineering/screens/MyPage.dart';
 import 'package:software_engineering/screens/SearchScreen.dart';
+import 'package:software_engineering/utils/firebase_auth.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final hasAppBarLogo;
+  final bool hasAppBarLogo;
+  final bool isMyPage; // TODO: 마이페이지에서는 마이페이지로 이동 대신 탈퇴
 
-  const CustomAppBar({super.key, this.hasAppBarLogo = true});
-
+  const CustomAppBar(
+      {super.key, this.hasAppBarLogo = true, this.isMyPage = false});
 
   @override
   Widget build(BuildContext context) {
@@ -24,22 +27,23 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0,
       title: hasAppBarLogo
           ? Image.asset(
-        'assets/images/logo2-removebg.png',
-        height: 100,
-      )
+              'assets/images/logo2-removebg.png',
+              height: 100,
+            )
           : null,
       centerTitle: true,
       toolbarHeight: AppSize.navigationTabHeight,
-      leading: Padding(
-        padding: AppPadding.homIconPadding,
+      leadingWidth: AppSize.homeIconsSize+20,
+
+      leading: Container(
+        margin: const EdgeInsets.only(left: 10),
         child: IconButton(
-          icon: const Icon(
-            Icons.home_outlined,
-            color: Color(AppColor.iconColor),
-            size: AppSize.homeIconsSize,
-          ),
-          onPressed: () => Get.to(() => MainPage())
-        ),
+            icon: const Icon(
+              Icons.home_outlined,
+              color: Color(AppColor.iconColor),
+              size: AppSize.homeIconsSize,
+            ),
+            onPressed: () => Get.to(() => MainPage())),
       ),
       actions: _buildActions(),
     );
@@ -53,23 +57,29 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             // TODO: 포인트 기능
           },
           isTextButton: false),
-      _buildAppBarAction(
-          text: '마이페이지',
-          onPressed: () {
-            // TODO: 마이페이지로 이동
-          }),
+      isMyPage
+          ? _buildAppBarAction(
+              text: '탈퇴',
+              onPressed: () {
+                //TODO : 탈퇴 기능
+              })
+          : _buildAppBarAction(
+              text: '마이페이지',
+              onPressed: () {
+                Get.to(() => MyPage());
+              }),
       _buildAppBarAction(
           text: '로그아웃',
           onPressed: () {
-            // TODO: 로그아웃
+            firebaseLogout();
           }),
     ];
   }
 
   Widget _buildAppBarAction(
       {required String text,
-        required VoidCallback onPressed,
-        isTextButton = true}) {
+      required VoidCallback onPressed,
+      isTextButton = true}) {
     if (!isTextButton) {
       return Text(
         text,

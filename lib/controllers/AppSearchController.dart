@@ -22,7 +22,7 @@ class AppSearchController extends GetxController {
     }
 
     // TODO: 실제로 firebase를 호출하는 함수를 구현해야됨 아직은 hard coding
-    searchedContents.value = AppConst.contents
+    searchedContents.value = AppConst.searchedContents
         .where((element) => element.title.contains(keyword))
         .toList();
     filter();
