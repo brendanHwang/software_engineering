@@ -46,6 +46,8 @@ dependencies:
   get: 
   logger:
   gap:
+  file_picker:
+  flutter_dropzone:
 
 dev_dependencies:
   flutter_test:

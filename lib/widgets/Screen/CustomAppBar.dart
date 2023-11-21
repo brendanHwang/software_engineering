@@ -2,11 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:software_engineering/constants/AppColor.dart';
-import 'package:software_engineering/constants/AppPadding.dart';
 import 'package:software_engineering/constants/AppSize.dart';
+import 'package:software_engineering/screens/AuthenticationWrapper.dart';
 import 'package:software_engineering/screens/MainPage.dart';
 import 'package:software_engineering/screens/MyPage.dart';
-import 'package:software_engineering/screens/SearchScreen.dart';
 import 'package:software_engineering/utils/firebase_auth.dart';
 import 'package:software_engineering/widgets/PayButton.dart';
 
@@ -46,11 +45,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
             onPressed: () => Get.to(() => MainPage())),
       ),
-      actions: _buildActions(),
+      actions: _buildActions(context),
     );
   }
 
-  List<Widget> _buildActions() {
+  List<Widget> _buildActions(BuildContext context) {
     return [
       StreamBuilder<int>(
         stream: getPoints(getCurrentUserUid()),
@@ -75,7 +74,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               text: '탈퇴',
               onPressed: () {
                 //TODO : 탈퇴 기능
+                _showDeleteAccountDialog(context);
               })
+
           : _buildAppBarAction(
               text: '마이페이지',
               onPressed: () {
@@ -85,6 +86,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           text: '로그아웃',
           onPressed: () {
             firebaseLogout();
+            Get.offAll(() => const AuthenticationWrapper());
           }),
     ];
   }
@@ -124,10 +126,67 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Size get preferredSize => const Size.fromHeight(AppSize.navigationTabHeight);
 }
 
+
 Stream<int> getPoints(String userId) {
   return FirebaseFirestore.instance
       .collection('user')
       .doc(userId)
       .snapshots()
       .map((snapshot) => snapshot.data()?['point'] ?? 0);
+
+
+void _showDeleteAccountDialog(BuildContext context) {
+  String? password = '';
+
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('탈퇴하기'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('비밀번호를 입력하세요:'),
+            TextFormField(
+              obscureText: true,
+              onChanged: (value) {
+                password = value;
+              },
+            ),
+          ],
+        ),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text('취소'),
+          ),
+          TextButton(
+            onPressed: () {
+              if (password != null && password!.isNotEmpty) {
+                // 기존 코드를 변경하지 않고 새로운 함수를 호출합니다.
+                _deleteAccountWithPassword(context, password!);
+                Navigator.pop(context);
+              }
+              else{
+                // SnackBar(content: Text('비밀번호를 입력해주세요.')); -> 안됨
+                Get.snackbar('오류','비밀번호를 입력하세요.'
+                  , snackPosition: SnackPosition.BOTTOM, forwardAnimationCurve: Curves.easeInSine,
+                  reverseAnimationCurve: Curves.easeInOut,
+                  backgroundColor: Colors.blueGrey[50],
+                );
+            }
+            },
+            child: Text('확인'),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+void _deleteAccountWithPassword(BuildContext context, String password) {
+  deleteAccount(context, password);
+
 }

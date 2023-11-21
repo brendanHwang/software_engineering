@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:software_engineering/constants/AppConst.dart';
 import 'package:software_engineering/controllers/AppSearchController.dart';
 import 'package:software_engineering/screens/Screen.dart';
 import 'package:software_engineering/widgets/SearchScreen/AppSearchBar.dart';
@@ -130,12 +129,12 @@ class _SearchScreenState extends State<SearchScreen> {
             Obx(() => Expanded(
                   child: ListView.builder(
                       itemCount:
-                          appSearchController.filteredContents.value.length,
+                          appSearchController.filteredContents.length,
                       itemBuilder: (context, index) {
                         return ContentCard(
                             index: index,
-                            content: appSearchController.filteredContents.value[
-                                index]); // TODO: contents 부분은 현재 hard coding 되어있음
+                            content: appSearchController.filteredContents[
+                                index]);
                       }),
                 ))
           ],
