@@ -23,7 +23,7 @@ class AppSearchController extends GetxController {
 
     // TODO: 실제로 firebase를 호출하는 함수를 구현해야됨 아직은 hard coding
     searchedContents.value = AppConst.searchedContents
-        .where((element) => element.title.contains(keyword))
+        .where((element) => element.title!.contains(keyword))
         .toList();
     filter();
     sort();
@@ -44,7 +44,7 @@ class AppSearchController extends GetxController {
 
     if (sortValue.value == '최신순') {
       // 최신순으로 정렬합니다.
-      sortedList.sort((a, b) => b.uploadDateTime.compareTo(a.uploadDateTime));
+      sortedList.sort((a, b) => b.uploadDateTime!.compareTo(a.uploadDateTime!));
       // print('최신순 정렬');
       // for (var i = 0; i < sortedList.length; i++) {
       //   print('${sortedList[i].title}:  ${sortedList[i].uploadDateTime}');
