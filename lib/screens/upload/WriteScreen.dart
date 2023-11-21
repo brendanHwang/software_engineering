@@ -75,7 +75,6 @@ class WriteScreen extends StatelessWidget {
                 Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                   ElevatedButton(
                     onPressed: () {
-                      //TODO firebase 연동
                       uploadController.upload();
                     },
                     style: ElevatedButton.styleFrom(

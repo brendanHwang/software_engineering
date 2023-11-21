@@ -7,7 +7,6 @@ import 'Screen.dart';
 import 'SearchScreen.dart';
 
 class MainPage extends StatelessWidget {
-
   final appSearchController = Get.find<AppSearchController>();
   final TextEditingController _controller = TextEditingController();
   @override
@@ -20,7 +19,7 @@ class MainPage extends StatelessWidget {
           // 버튼을 눌렀을 때의 추가적인 동작
           Get.to(() => UploadScreen()); // WritingPage로 이동??
         },
-        child: Icon(
+        child: const Icon(
           Icons.add, // 돋보기 아이콘
           color: Colors.white, // 아이콘 색상
         ),

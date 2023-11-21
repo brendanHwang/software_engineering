@@ -18,6 +18,7 @@ class _ContentYearSelectionState extends State<ContentYearSelection> {
   void initState() {
     super.initState();
     selectedYear = DateTime.now().year; // 기본값으로 현재 년도 설정
+    uploadController.content.contentYear = DateTime(selectedYear!);
     _yearController = TextEditingController(text: selectedYear.toString()); // 초기값 설정
   }
 

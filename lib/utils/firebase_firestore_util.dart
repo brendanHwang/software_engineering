@@ -3,8 +3,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:software_engineering/controllers/AppSearchController.dart';
+import 'package:software_engineering/controllers/PurchasedController.dart';
 import 'package:software_engineering/controllers/UploadController.dart';
 import 'package:software_engineering/models/Content.dart';
+import 'package:software_engineering/models/PurchasedContent.dart';
 import 'package:software_engineering/screens/MainPage.dart';
 
 import 'firebase_storage_util.dart';
@@ -19,29 +21,23 @@ Future<void> uploadContent() async {
   final user = FirebaseAuth.instance.currentUser;
 
   if (user != null && uploadController.selectedFile.value != null) {
-    // 현재 로그인된 사용자의 UID
     String userId = user.uid;
 
-    await uploadFile(); //firebase storage에 우선 파일을 업로드하고
+    await uploadFile(); // Firebase Storage에 파일을 업로드
 
-    // Firestore에 저장하기 직전에 채워야할 필드들을 채웁니다.
     uploadController.content.uploadDateTime = DateTime.now();
     uploadController.content.userID = userId;
 
     try {
-      // firestore에 content를 저장합니다.
-      await FirebaseFirestore.instance
+      // 고유한 Document ID를 생성합니다.
+      DocumentReference docRef = FirebaseFirestore.instance
           .collection('content')
-          .add(uploadController.content.toJson());
-      // firestore에 저장 이후
-      //TODO 포인트 증가
-      // await FirebaseFirestore.instance.collection('users').doc(userId).update({
-      //   'point' : FieldValue.increment(6) // 업로드 시 포인트 6점 증가
-      // });
+          .doc();
 
-      uploadController.reset();
-
-      // print('Content uploaded successfully');
+      // 생성된 Document ID를 사용하여 contentPath를 포함한 데이터를 저장합니다.
+      uploadController.content.docPath = docRef.path;
+      await docRef.set(uploadController.content.toJson());
+      // 나머지 코드 ...
       Get.to(() => MainPage());
       Get.snackbar('업로드 성공', '성공적으로 업로드 되었습니다');
     } catch (e) {
@@ -49,6 +45,8 @@ Future<void> uploadContent() async {
     }
   }
 }
+
+
 
 /// firebase firestore content collection에서 content collection에서 title field가 keyword를 포함하는 문서들을 검색하여 반환하는 함수입니다.
 Future<void> searchContent(String keyword) async {
@@ -66,11 +64,11 @@ Future<void> searchContent(String keyword) async {
         .map((e) {
       var data = e.data();
       // review 필드가 Map<String, int>이 기대되는 경우, 적절한 타입으로 변환합니다.
-      if (data['review'] != null) {
-        data['review'] = Map<String, int>.from(data['review'].map((key, value) {
-          return MapEntry(key, value is int ? value : int.tryParse(value.toString()) ?? 0);
-        }));
-      }
+      // if (data['review'] != null) {
+      //   data['review'] = Map<String, int>.from(data['review'].map((key, value) {
+      //     return MapEntry(key, value is int ? value : int.tryParse(value.toString()) ?? 0);
+      //   }));
+      // }
       return Content.fromJson(data);
     }).toList();
 
@@ -78,3 +76,60 @@ Future<void> searchContent(String keyword) async {
     print('Error searching content $e');
   }
 }
+
+/// firebase firestore user collection에서 purchasedContents field(List<Map<String, dynamic>>)에 docPath에 해당하는 것을 firebase firestore content collection에서 찾아 반환하는 함수입니다.
+Future<void> getPurchasedContents() async {
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  User? user = FirebaseAuth.instance.currentUser;
+  final purchasedController = Get.find<PurchasedController>();
+
+  if (user == null) {
+    Get.snackbar('오류', '로그인된 사용자가 없습니다.');
+    return;
+  }
+
+  String userId = user.uid;
+
+  try {
+    // 사용자의 구매 내역 조회
+    DocumentSnapshot userDoc = await firestore.collection('user').doc(userId).get();
+    if (!userDoc.exists || userDoc.data() == null) {
+      Get.snackbar('오류', '사용자 정보를 찾을 수 없습니다.');
+      return;
+    }
+
+    var userPurchasedContents = (userDoc.data() as Map<String, dynamic>)['purchasedContents'];
+
+
+    if (userPurchasedContents != null) {
+      for (var purchase in userPurchasedContents) {
+        String docPath = purchase['docPath'];
+        DocumentSnapshot<Map<String, dynamic>> contentDoc = await getContentFromDocPath(docPath);
+        print(contentDoc.data());
+        if (contentDoc.exists) {
+          Content content = Content.fromJson(contentDoc.data()!); // Content 객체 생성
+
+          purchasedController.purchasedContents.add(PurchasedContent(content: content, purchasedDateTime: (purchase['purchasedDateTime'] as Timestamp).toDate(), review: purchase['review']));
+        }
+      }
+    }
+  } catch (e) {
+    print('Error getting purchased contents $e');
+  }
+}
+
+Future<DocumentSnapshot<Map<String, dynamic>>> getContentFromDocPath(String docPath) async {
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+  // docPath에서 컬렉션 이름과 문서 ID를 분리
+  var pathSegments = docPath.split('/');
+  if (pathSegments.length != 2 || pathSegments[0] != 'content') {
+    throw Exception('잘못된 문서 경로입니다: $docPath');
+  }
+  String docId = pathSegments[1];
+
+  // Firestore에서 해당 문서 조회
+  DocumentReference<Map<String, dynamic>> docRef = firestore.collection('content').doc(docId);
+  return await docRef.get();
+}
+

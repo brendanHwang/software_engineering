@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:software_engineering/constants/AppColor.dart';
 import 'package:software_engineering/constants/AppSize.dart';
+import 'package:software_engineering/controllers/PurchasedController.dart';
 import 'package:software_engineering/screens/AuthenticationWrapper.dart';
 import 'package:software_engineering/screens/MainPage.dart';
 import 'package:software_engineering/screens/MyPage.dart';
@@ -13,8 +14,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool hasAppBarLogo;
   final bool isMyPage; // TODO: 마이페이지에서는 마이페이지로 이동 대신 탈퇴
 
-  const CustomAppBar(
+   CustomAppBar(
       {super.key, this.hasAppBarLogo = true, this.isMyPage = false});
+
+  final purchaseController = Get.find<PurchasedController>();
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +82,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
           : _buildAppBarAction(
               text: '마이페이지',
-              onPressed: () {
+              onPressed: () async {
+                await purchaseController.getPurchasedContents();
                 Get.to(() => MyPage());
               }),
       _buildAppBarAction(

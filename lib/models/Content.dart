@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
-import 'package:software_engineering/constants/AppConst.dart';
 import 'package:software_engineering/constants/AppString.dart';
 import 'package:software_engineering/screens/upload/UploadScreen.dart';
 
 // regDate 삭제& purchasedDateTime 추가
 class Content {
+  String? docPath; // firebase firestore에 저장된 document 경로
   String? userID; // 자료 업로드한 사용자 id
   String? fileDescription; // 자료 설명
   String? filePath; // firebase storage에 저장된 파일 경로
@@ -21,7 +21,9 @@ class Content {
   DateTime? purchasedDateTime; // 자료 다운로드 날짜 (다운로든는 nullalbe)
 
   Content(
-      {this.userID,
+      {
+      this.docPath,
+        this.userID,
       this.fileDescription,
       this.filePath,
       this.contentType,
@@ -40,7 +42,15 @@ class Content {
       this.purchasedDateTime});
 
   factory Content.fromJson(Map<String, dynamic> json) {
+    // review 필드가 null이 아닌 경우, 타입 변환 수행
+    Map<String, int> reviewInt = {};
+    if (json['review'] != null) {
+      Map<String, dynamic> reviewDynamic = json['review'];
+      reviewInt = reviewDynamic.map((key, value) => MapEntry(key, value is int ? value : int.tryParse(value.toString()) ?? 0));
+    }
+
     return Content(
+      docPath: json['docPath'],
       userID: json['userID'],
       fileDescription: json['fileDescription'],
       filePath: json['filePath'],
@@ -49,21 +59,17 @@ class Content {
       fileName: json['fileName'],
       department: json['department'],
       soldNum: json['soldNum'],
-      review: json['review'],
+      review: reviewInt, // 변환된 review 데이터 사용
       profName: json['profName'],
-      contentYear: json['contentYear'] == null
-          ? null
-          : (json['contentYear'] as Timestamp).toDate(),
-      uploadDateTime: json['uploadDateTime'] == null
-          ? null
-          : (json['uploadDateTime'] as Timestamp).toDate(),
-      purchasedDateTime: json['purchasedDateTime'] == null
-          ? null
-          : (json['purchasedDateTime'] as Timestamp).toDate(),
+      contentYear: json['contentYear'] == null ? null : (json['contentYear'] as Timestamp).toDate(),
+      uploadDateTime: json['uploadDateTime'] == null ? null : (json['uploadDateTime'] as Timestamp).toDate(),
+      purchasedDateTime: json['purchasedDateTime'] == null ? null : (json['purchasedDateTime'] as Timestamp).toDate(),
     );
   }
 
+
   Map<String, dynamic> toJson() => {
+    'docPath': docPath,
     'userID': userID,
     'fileDescription': fileDescription,
     'filePath': filePath,

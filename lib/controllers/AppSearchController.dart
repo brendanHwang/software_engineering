@@ -25,10 +25,9 @@ class AppSearchController extends GetxController {
 
     filteredContents.value = searchedContents;
     filter();
-    print('after filter');
-    for(var i = 0; i < filteredContents.length; i++) {
-      print(filteredContents[i].toString());
-    }
+    // for(var i = 0; i < filteredContents.length; i++) {
+    //   print(filteredContents[i].toString());
+    // }
     sort();
     searchHistory.addIf(!searchHistory.contains(keyword), keyword);
 

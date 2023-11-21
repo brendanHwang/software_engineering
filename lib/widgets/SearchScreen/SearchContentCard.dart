@@ -3,29 +3,26 @@ import 'package:get/get.dart';
 import 'package:software_engineering/constants/AppString.dart';
 import 'package:software_engineering/models/Content.dart';
 import 'package:software_engineering/screens/ContentsInfoScreen.dart';
-import 'package:software_engineering/widgets/DownloadButton.dart';
-import 'package:software_engineering/widgets/IconReviewButton.dart';
-import 'package:software_engineering/widgets/SearchScreen/IconReviewView.dart';
 import 'package:software_engineering/widgets/PayButton.dart';
+import 'package:software_engineering/widgets/SearchScreen/IconReviewView.dart';
 
-class ContentCard extends StatelessWidget {
-  const ContentCard(
+class SearchContentCard extends StatelessWidget {
+  const SearchContentCard(
       {Key? key,
-      required this.index,
-      required this.content,
-      this.isSearchedContent = true})
+        required this.index,
+        required this.content,
+        })
       : super(key: key);
   final int index;
   final Content content;
-  final bool isSearchedContent; // isSearchContent가 true면 검색결과, false면 구매내역
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        if (isSearchedContent) {
+
           Get.to(() => ContentsInfoScreen(content: content));
-        }
+
       },
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -65,16 +62,6 @@ class ContentCard extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                             color: Colors.grey)),
                   ),
-                  //  구매내역은 경우 언제 구매했는지 표시
-                  //TODO : 구매내역은 경우 언제 구매했는지 표시
-                  // if (!isSearchedContent)
-                  //   Text(
-                  //     '${content.purchasedDateTime!.year}/${content.purchasedDateTime!.month}/${content.purchasedDateTime!.day}',
-                  //     style: const TextStyle(
-                  //         fontSize: 15,
-                  //         fontWeight: FontWeight.bold,
-                  //         color: Colors.grey),
-                  //   ),
                 ],
               ),
               const SizedBox(
@@ -95,22 +82,18 @@ class ContentCard extends StatelessWidget {
             ],
           ),
           const Spacer(),
-          isSearchedContent
-              ? IconReviewView(
-                  like: content.getReviewString(AppString.like),
-                  normal: content.getReviewString(AppString.normal),
-                  dislike: content.getReviewString(AppString.dislike))
-              : IconReviewButton(
-                  like: content.getReviewString(AppString.like),
-                  normal: content.getReviewString(AppString.normal),
-                  dislike: content.getReviewString(AppString.dislike)),
+          IconReviewView(
+              like: content.getReviewString(AppString.like),
+              normal: content.getReviewString(AppString.normal),
+              dislike: content.getReviewString(AppString.dislike)),
           const SizedBox(
             width: 50,
           ),
           // PayButton, DownloadButton 문서 ID 인자로 받을 것임
-          isSearchedContent ?  PayButton(docPath: content.docPath) : const DownloadButton(),
+          PayButton(docPath: content.docPath)
         ],
       ),
     );
   }
 }
+
