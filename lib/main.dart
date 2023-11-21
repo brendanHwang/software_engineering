@@ -33,10 +33,11 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'software engineering',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(AppColor.mainColor)),
+        colorScheme:
+            ColorScheme.fromSeed(seedColor: const Color(AppColor.mainColor)),
         useMaterial3: true,
       ),
-      home: const ContentsInfoScreen(),
+      home: const AuthenticationWrapper(),
     );
   }
 }
