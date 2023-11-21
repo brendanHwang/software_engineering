@@ -5,8 +5,6 @@ import 'package:software_engineering/models/Content.dart';
 
 class PurchasedController extends GetxController{
 
-
-
   Stream<List<Content>> getContentStream() async* {
     List<Content> contents = AppConst.purchasedContents;
 
