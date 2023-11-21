@@ -1,6 +1,7 @@
 import 'package:software_engineering/constants/AppConst.dart';
 import 'package:software_engineering/constants/AppString.dart';
 
+// regDate 삭제& purchasedDateTime 추가
 class Content {
   String userID;
   int fileDescriptor; // 자료 id
@@ -9,12 +10,12 @@ class Content {
   String title;
   String fileName; // 자료 이름
   String department;
-  String regDate;
   int soldNum;
   Map<String, int> review;
   String? profName;
   DateTime? contentYear; // 자료년도
   DateTime uploadDateTime; // 자료 업로드 날짜
+  DateTime? purchasedDateTime; // 자료 다운로드 날짜 (다운로든는 nullalbe)
 
   Content(
       {required this.userID,
@@ -24,12 +25,12 @@ class Content {
       required this.title,
       required this.fileName,
       required this.department,
-      required this.regDate,
       required this.soldNum,
       required this.review,
       this.profName,
       this.contentYear,
-      required this.uploadDateTime});
+      required this.uploadDateTime,
+      this.purchasedDateTime});
 
   factory Content.fromJson(Map<String, dynamic> json) {
     return Content(
@@ -40,14 +41,16 @@ class Content {
         title: json['title'],
         fileName: json['fileName'],
         department: json['department'],
-        regDate: json['regDate'],
         soldNum: json['soldNum'],
         review: json['review'],
         profName: json['profName'],
         contentYear: json['contentYear'] == null
             ? null
             : DateTime.parse(json['contentYear']),
-        uploadDateTime: DateTime.parse(json['uploadDateTime']));
+        uploadDateTime: DateTime.parse(json['uploadDateTime']),
+        purchasedDateTime: json['purchasedDateTime'] == null
+            ? null
+            : DateTime.parse(json['purchasedDateTime']));
   }
 
   Map<String, dynamic> toJson() => {
@@ -58,13 +61,15 @@ class Content {
         'title': title,
         'fileName': fileName,
         'department': department,
-        'regDate': regDate,
         'soldNum': soldNum,
         'review': review,
         'profName': profName,
         'contentYear':
             contentYear == null ? null : contentYear!.toIso8601String(),
-        'uploadDateTime': uploadDateTime.toIso8601String()
+        'uploadDateTime': uploadDateTime.toIso8601String(),
+        'purchasedDateTime': purchasedDateTime == null
+            ? null
+            : purchasedDateTime!.toIso8601String(),
       };
 
   String getReviewString(String key) {
