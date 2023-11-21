@@ -18,7 +18,6 @@ class Content {
   String? profName; // 교수 이름
   DateTime? contentYear; // 자료년도
   DateTime? uploadDateTime; // 자료 업로드 날짜
-  DateTime? purchasedDateTime; // 자료 다운로드 날짜 (다운로든는 nullalbe)
 
   Content(
       {
@@ -39,7 +38,7 @@ class Content {
       this.profName,
       this.contentYear,
       this.uploadDateTime,
-      this.purchasedDateTime});
+      });
 
   factory Content.fromJson(Map<String, dynamic> json) {
     // review 필드가 null이 아닌 경우, 타입 변환 수행
@@ -63,7 +62,6 @@ class Content {
       profName: json['profName'],
       contentYear: json['contentYear'] == null ? null : (json['contentYear'] as Timestamp).toDate(),
       uploadDateTime: json['uploadDateTime'] == null ? null : (json['uploadDateTime'] as Timestamp).toDate(),
-      purchasedDateTime: json['purchasedDateTime'] == null ? null : (json['purchasedDateTime'] as Timestamp).toDate(),
     );
   }
 
@@ -82,7 +80,6 @@ class Content {
     'profName': profName,
     'contentYear': contentYear == null ? null : Timestamp.fromDate(contentYear!),
     'uploadDateTime': uploadDateTime == null ? null : Timestamp.fromDate(uploadDateTime!),
-    'purchasedDateTime': purchasedDateTime == null ? null : Timestamp.fromDate(purchasedDateTime!),
   };
 
   String getReviewString(String key) {
@@ -163,6 +160,6 @@ class Content {
 
   @override
   String toString() {
-    return 'userID: $userID, fileDescription: $fileDescription, filePath: $filePath, contentType: $contentType, title: $title, fileName: $fileName, department: $department, soldNum: $soldNum, review: $review, profName: $profName, contentYear: $contentYear, uploadDateTime: $uploadDateTime, purchasedDateTime: $purchasedDateTime';
+    return 'userID: $userID, fileDescription: $fileDescription, filePath: $filePath, contentType: $contentType, title: $title, fileName: $fileName, department: $department, soldNum: $soldNum, review: $review, profName: $profName, contentYear: $contentYear, uploadDateTime: $uploadDateTime';
   }
 }
