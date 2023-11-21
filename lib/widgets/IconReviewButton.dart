@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
 
 class IconReviewButton extends StatelessWidget {
   const IconReviewButton(
@@ -10,6 +12,7 @@ class IconReviewButton extends StatelessWidget {
   final String like;
   final String normal;
   final String dislike;
+
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +26,10 @@ class IconReviewButton extends StatelessWidget {
         children: [
           IconButton(
             icon: const Icon(Icons.tag_faces_outlined, size: 40, color: Colors.black),
-            onPressed: () {},
+            onPressed: () {
+              //포인트 추가
+
+            },
             style: ButtonStyle(
               padding: MaterialStateProperty.all(EdgeInsets.zero),
               minimumSize: MaterialStateProperty.all(Size.zero),

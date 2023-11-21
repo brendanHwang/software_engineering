@@ -4,6 +4,10 @@ import 'package:software_engineering/constants/AppString.dart';
 import 'package:software_engineering/controllers/LoginController.dart';
 import 'package:software_engineering/controllers/SignupController.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:software_engineering/screens/AuthenticationWrapper.dart';
+
+
 
 
 
@@ -48,11 +52,11 @@ Future<bool> firebaseSignup() async {
 
 
 Future<bool> firebaseLogin() async {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth auth = FirebaseAuth.instance;
   UserController loginController = Get.find();
   try {
     // Firebase를 사용하여 이메일과 비밀번호로 사용자 로그인
-    UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+    UserCredential userCredential = await auth.signInWithEmailAndPassword(
         email: loginController.user.value.email,
         password: loginController.user.value.password);
     // 사용자 로그인 성공
@@ -71,3 +75,45 @@ Future<void> firebaseLogout() async {
   await _auth.signOut();
 }
 
+//탈퇴를 처리하는 async(비동기) 함수.
+//발생가능한 에러 ) 비밀번호가 맞지 않음. 아무 text도 입력하지 않음.
+Future<void> deleteAccount(BuildContext context, String password) async {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  try {
+    User? user = _auth.currentUser;
+    if (user != null) {
+      // Firebase에서 현재 사용자의 정보 가져오기
+
+      String? userEmail = user?.email; // 이메일이 nullable인 경우
+      UserCredential credential = await _auth.signInWithEmailAndPassword(
+        email: userEmail!,
+        password: password,
+      );
+
+      // 비밀번호가 일치하는지 확인
+      if (user != null) {
+        // 비밀번호가 일치할 경우, 사용자 삭제 및 데이터베이스에서 삭제
+        // 탈퇴할때 firebase authentication에서 제거, firebase database에서도 제거
+        await _firestore.collection('user').doc(user.uid).delete();
+        await user.delete();
+
+        // 사용자 삭제 후 로그인 페이지로 전환
+        Get.snackbar('안내','정상적으로 탈퇴 완료되었습니다.' ,snackPosition: SnackPosition.BOTTOM, forwardAnimationCurve: Curves.easeInSine);
+
+        Get.off(const AuthenticationWrapper());
+
+      }
+      else{
+
+      }
+    }
+  } catch (e) {
+    Get.snackbar('오류','비밀번호가 일치하지 않습니다.'
+      , snackPosition: SnackPosition.BOTTOM, forwardAnimationCurve: Curves.easeInSine,
+      reverseAnimationCurve: Curves.easeInOut, backgroundColor: Colors.blueGrey[75],);// colorText: Colors.white,
+      //reverseAnimationCurve: Curves.easeOut,);
+
+  }
+}
