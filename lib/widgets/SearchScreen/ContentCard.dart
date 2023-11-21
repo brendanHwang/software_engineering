@@ -59,7 +59,7 @@ class ContentCard extends StatelessWidget {
                   ),
                   SizedBox(
                     width: 200,
-                    child: Text(content.contentType,
+                    child: Text(content.contentType!,
                         style: const TextStyle(
                             fontSize: 25,
                             fontWeight: FontWeight.bold,
