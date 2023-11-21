@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:software_engineering/constants/AppPadding.dart';
 import 'package:software_engineering/constants/AppSize.dart';
-import 'package:software_engineering/screens/upload/UploadScreen.dart';
 import 'package:software_engineering/widgets/Screen/CustomAppBar.dart';
 
 class Screen extends StatefulWidget {
   final Widget child;
   final bool isScrollable;
-  final bool hasFloatingButton;
+  final Widget? floatingButton;
   final bool hasAppBarLogo;
   final bool isMyPage; // TODO: 마이페이지에서는 마이페이지로 이동 대신 탈퇴
 
@@ -16,7 +15,7 @@ class Screen extends StatefulWidget {
       {Key? key,
       required this.child,
       this.isScrollable = true,
-      this.hasFloatingButton = false,
+      this.floatingButton,
       this.hasAppBarLogo = true,
       this.isMyPage = false})
       : super(key: key);
@@ -52,19 +51,7 @@ class _ScreenState extends State<Screen> {
                 height: double.infinity,
                 child: widget.child),
       ),
-      floatingActionButton: widget.hasFloatingButton
-          ? FloatingActionButton(
-              backgroundColor: Colors.black, // 배경색: 검은색
-              onPressed: () {
-                // 버튼을 눌렀을 때의 추가적인 동작
-                Get.to(() => UploadScreen()); // WritingPage로 이동??
-              },
-              child: Icon(
-                Icons.add, // 돋보기 아이콘
-                color: Colors.white, // 아이콘 색상
-              ),
-            )
-          : null,
+      floatingActionButton: widget.floatingButton,
     );
   }
 }

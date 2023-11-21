@@ -1,41 +1,43 @@
+import 'package:get/get.dart';
 import 'package:software_engineering/constants/AppConst.dart';
 import 'package:software_engineering/constants/AppString.dart';
+import 'package:software_engineering/screens/upload/UploadScreen.dart';
 
 // regDate 삭제& purchasedDateTime 추가
 class Content {
-  String userID;
-  int fileDescriptor; // 자료 id
-  String filePath;
-  String contentType;
-  String title;
-  String fileName; // 자료 이름
-  String department;
+  String? userID; // 자료 업로드한 사용자 id
+  String? fileDescription; // 자료 설명
+  String? filePath; // firebase storage에 저장된 파일 경로
+  String? contentType; // 자료 종류 (전공,교양, 취업 자료, 기타)
+  String? title; // 자료 제목
+  String? fileName; // 자료 이름
+  String? department; // 학과
   int soldNum;
   Map<String, int> review;
-  String? profName;
+  String? profName; // 교수 이름
   DateTime? contentYear; // 자료년도
-  DateTime uploadDateTime; // 자료 업로드 날짜
+  DateTime? uploadDateTime; // 자료 업로드 날짜
   DateTime? purchasedDateTime; // 자료 다운로드 날짜 (다운로든는 nullalbe)
 
   Content(
-      {required this.userID,
-      required this.fileDescriptor,
-      required this.filePath,
-      required this.contentType,
-      required this.title,
-      required this.fileName,
-      required this.department,
-      required this.soldNum,
-      required this.review,
+      { this.userID,
+       this.fileDescription,
+       this.filePath,
+       this.contentType,
+       this.title,
+       this.fileName,
+       this.department,
+       this.soldNum = 0,
+       this.review = const {},
       this.profName,
       this.contentYear,
-      required this.uploadDateTime,
+       this.uploadDateTime,
       this.purchasedDateTime});
 
   factory Content.fromJson(Map<String, dynamic> json) {
     return Content(
         userID: json['userID'],
-        fileDescriptor: json['fileDescriptor'],
+        fileDescription: json['fileDescription'],
         filePath: json['filePath'],
         contentType: json['contentType'],
         title: json['title'],
@@ -55,7 +57,7 @@ class Content {
 
   Map<String, dynamic> toJson() => {
         'userID': userID,
-        'fileDescriptor': fileDescriptor,
+        'fileDescription': fileDescription,
         'filePath': filePath,
         'contentType': contentType,
         'title': title,
@@ -66,7 +68,9 @@ class Content {
         'profName': profName,
         'contentYear':
             contentYear == null ? null : contentYear!.toIso8601String(),
-        'uploadDateTime': uploadDateTime.toIso8601String(),
+        'uploadDateTime': uploadDateTime == null
+            ? null
+            : uploadDateTime!.toIso8601String(),
         'purchasedDateTime': purchasedDateTime == null
             ? null
             : purchasedDateTime!.toIso8601String(),
@@ -99,5 +103,52 @@ class Content {
 
   int getSoldNum() {
     return soldNum;
+  }
+
+  void setContentTypeToString({required int contentTypeIdx}) {
+    switch (contentTypeIdx) {
+      case 0:
+        contentType = '전공';
+        break;
+      case 1:
+        contentType = '교양';
+        break;
+      case 2:
+        contentType = '취업자료';
+        break;
+      case 3:
+        contentType = '기타';
+        break;
+      default:
+        contentType = '전공';
+        break;
+    }
+  }
+
+  /// 필수 항목에 대한 검사 진행
+  /// 필수 항목 - title, contentType, fileName, department, fileDescription
+  bool uploadValidation(){
+    if(title == null || title!.isEmpty){
+      Get.snackbar("업로드 실패", "제목을 입력해주세요");
+      return false;
+    }
+    if(contentType == null || contentType!.isEmpty){
+      Get.snackbar("업로드 실패", "자료 유형을 선택해주세요");
+      return false;
+    }
+    if(fileName == null || fileName!.isEmpty){
+      Get.snackbar("업로드 실패", "파일을 드래그앤드롭 하여 올려주세요");
+      Get.to(UploadScreen());
+      return false;
+    }
+    if(department == null || department!.isEmpty){
+      Get.snackbar("업로드 실패", "학과를 입력해주세요");
+      return false;
+    }
+    if(fileDescription == null || fileDescription!.isEmpty){
+      Get.snackbar("업로드 실패", "자료 내용을 입력해주세요");
+      return false;
+    }
+    return true;
   }
 }

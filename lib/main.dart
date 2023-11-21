@@ -5,7 +5,10 @@ import 'package:software_engineering/constants/AppColor.dart';
 import 'package:software_engineering/controllers/AppSearchController.dart';
 import 'package:software_engineering/controllers/LoginController.dart';
 import 'package:software_engineering/controllers/PurchasedController.dart';
+import 'package:software_engineering/controllers/UploadController.dart';
 import 'package:software_engineering/screens/AuthenticationWrapper.dart';
+import 'package:software_engineering/screens/upload/UploadScreen.dart';
+import 'package:software_engineering/screens/upload/WriteScreen.dart';
 
 import 'firebase_options.dart';
 
@@ -28,6 +31,7 @@ class MyApp extends StatelessWidget {
     Get.lazyPut(() => AppSearchController());
     Get.lazyPut(() => UserController());
     Get.lazyPut(() => PurchasedController());
+    Get.lazyPut(() => UploadController());
 
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
@@ -37,6 +41,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: const AuthenticationWrapper(),
+      // home:  WriteScreen(),
     );
   }
 }

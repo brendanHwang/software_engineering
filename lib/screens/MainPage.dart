@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:software_engineering/controllers/AppSearchController.dart';
+import 'package:software_engineering/screens/upload/UploadScreen.dart';
 
 import 'Screen.dart';
 import 'SearchScreen.dart';
@@ -13,7 +14,17 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Screen(
       hasAppBarLogo: false,
-      hasFloatingButton: true,
+      floatingButton: FloatingActionButton(
+        backgroundColor: Colors.black, // 배경색: 검은색
+        onPressed: () {
+          // 버튼을 눌렀을 때의 추가적인 동작
+          Get.to(() => UploadScreen()); // WritingPage로 이동??
+        },
+        child: Icon(
+          Icons.add, // 돋보기 아이콘
+          color: Colors.white, // 아이콘 색상
+        ),
+      ),
       isScrollable: false,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,

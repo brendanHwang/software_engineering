@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:software_engineering/constants/AppColor.dart';
-import 'package:software_engineering/constants/AppPadding.dart';
 import 'package:software_engineering/constants/AppSize.dart';
+import 'package:software_engineering/screens/AuthenticationWrapper.dart';
 import 'package:software_engineering/screens/MainPage.dart';
 import 'package:software_engineering/screens/MyPage.dart';
-import 'package:software_engineering/screens/SearchScreen.dart';
 import 'package:software_engineering/utils/firebase_auth.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -33,8 +32,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           : null,
       centerTitle: true,
       toolbarHeight: AppSize.navigationTabHeight,
-      leadingWidth: AppSize.homeIconsSize+20,
-
+      leadingWidth: AppSize.homeIconsSize + 20,
       leading: Container(
         margin: const EdgeInsets.only(left: 10),
         child: IconButton(
@@ -74,6 +72,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           text: '로그아웃',
           onPressed: () {
             firebaseLogout();
+            Get.offAll(() => const AuthenticationWrapper());
           }),
     ];
   }

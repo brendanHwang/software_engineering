@@ -9,8 +9,6 @@ import 'package:software_engineering/screens/AuthenticationWrapper.dart';
 
 
 
-
-
 Future<bool> firebaseSignup() async {
   bool success = false;
   SignupController signupController = Get.find();
@@ -25,10 +23,7 @@ Future<bool> firebaseSignup() async {
     );
 
     // 사용자 정보 데이터베이스에 저장
-    await firestore
-        .collection('user')
-        .doc(userCredential.user!.uid)
-        .set(
+    await firestore.collection('user').doc(userCredential.user!.uid).set(
           signupController.user.value.toSignupDocument(),
         );
     Get.snackbar('회원가입 성공', '회원가입에 성공했습니다.');
@@ -48,9 +43,6 @@ Future<bool> firebaseSignup() async {
   return success;
 }
 
-
-
-
 Future<bool> firebaseLogin() async {
   final FirebaseAuth auth = FirebaseAuth.instance;
   UserController loginController = Get.find();
@@ -65,7 +57,6 @@ Future<bool> firebaseLogin() async {
     return false;
   } catch (e) {
     // 기타 예외 처리
-    // print(e);
     return false;
   }
 }
@@ -74,6 +65,7 @@ Future<void> firebaseLogout() async {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   await _auth.signOut();
 }
+
 
 //탈퇴를 처리하는 async(비동기) 함수.
 //발생가능한 에러 ) 비밀번호가 맞지 않음. 아무 text도 입력하지 않음.
@@ -115,5 +107,24 @@ Future<void> deleteAccount(BuildContext context, String password) async {
       reverseAnimationCurve: Curves.easeInOut, backgroundColor: Colors.blueGrey[75],);// colorText: Colors.white,
       //reverseAnimationCurve: Curves.easeOut,);
 
+  }
+}
+Future<String> firebasePwChange(String email) async {
+  final firebaseAuth = FirebaseAuth.instance;
+
+  try {
+    await firebaseAuth.sendPasswordResetEmail(email: email);
+    // 여기에 비밀번호 재설정 이메일이 성공적으로 전송되었을 때의 코드를 추가할 수 있습니다.
+    return '비밀번호 재설정 이메일이 전송되었습니다.';
+  } on FirebaseAuthException catch (e) {
+    if (e.code == 'user-not-found') {
+      return '등록된 이메일이 아닙니다.';
+    } else if (e.code == 'invalid-email') {
+      return '이메일을 입력해 주세요';
+    } else {
+      return '알 수 없는 에러가 발생했습니다. 에러 코드: ${e.code}';
+    }
+  } catch (e) {
+    return '예상치 못한 에러가 발생했습니다: $e';
   }
 }
