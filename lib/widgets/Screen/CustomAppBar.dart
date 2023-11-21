@@ -133,7 +133,7 @@ Stream<int> getPoints(String userId) {
       .doc(userId)
       .snapshots()
       .map((snapshot) => snapshot.data()?['point'] ?? 0);
-
+}
 
 void _showDeleteAccountDialog(BuildContext context) {
   String? password = '';
