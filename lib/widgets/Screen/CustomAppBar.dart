@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:software_engineering/constants/AppColor.dart';
@@ -6,6 +7,7 @@ import 'package:software_engineering/screens/AuthenticationWrapper.dart';
 import 'package:software_engineering/screens/MainPage.dart';
 import 'package:software_engineering/screens/MyPage.dart';
 import 'package:software_engineering/utils/firebase_auth.dart';
+import 'package:software_engineering/widgets/PayButton.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool hasAppBarLogo;
@@ -49,12 +51,24 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   List<Widget> _buildActions(BuildContext context) {
     return [
-      _buildAppBarAction(
-          text: '포인트: 3',
-          onPressed: () {
-            // TODO: 포인트 기능
-          },
-          isTextButton: false),
+      StreamBuilder<int>(
+        stream: getPoints(getCurrentUserUid()),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const CircularProgressIndicator();
+          } else if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
+          } else {
+            return _buildAppBarAction(
+              text: '포인트: ${snapshot.data}',
+              onPressed: () {
+                // TODO: 포인트 기능
+              },
+              isTextButton: false,
+            );
+          }
+        },
+      ),
       isMyPage
           ? _buildAppBarAction(
               text: '탈퇴',
@@ -113,6 +127,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 }
 
 
+Stream<int> getPoints(String userId) {
+  return FirebaseFirestore.instance
+      .collection('user')
+      .doc(userId)
+      .snapshots()
+      .map((snapshot) => snapshot.data()?['point'] ?? 0);
+
+
 void _showDeleteAccountDialog(BuildContext context) {
   String? password = '';
 
@@ -166,4 +188,5 @@ void _showDeleteAccountDialog(BuildContext context) {
 
 void _deleteAccountWithPassword(BuildContext context, String password) {
   deleteAccount(context, password);
+
 }

@@ -59,7 +59,7 @@ class ContentCard extends StatelessWidget {
                   ),
                   SizedBox(
                     width: 200,
-                    child: Text('${content.contentType}',
+                    child: Text(content.contentType,
                         style: const TextStyle(
                             fontSize: 25,
                             fontWeight: FontWeight.bold,
@@ -106,6 +106,7 @@ class ContentCard extends StatelessWidget {
           const SizedBox(
             width: 50,
           ),
+          // PayButton, DownloadButton 문서 ID 인자로 받을 것임
           isSearchedContent ? const PayButton() : const DownloadButton(),
         ],
       ),
