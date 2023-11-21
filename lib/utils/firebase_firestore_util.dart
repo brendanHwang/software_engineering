@@ -20,32 +20,35 @@ Future<void> uploadContent() async {
   final uploadController = Get.find<UploadController>();
   final user = FirebaseAuth.instance.currentUser;
 
-  if (user != null && uploadController.selectedFile.value != null) {
-    String userId = user.uid;
+  if (user == null || uploadController.selectedFile.value == null) {
+    print('No user logged in or no file selected');
+    return;
+  }
 
+  String userId = user.uid;
+
+  try {
     await uploadFile(); // Firebase Storage에 파일을 업로드
-
     uploadController.content.uploadDateTime = DateTime.now();
     uploadController.content.userID = userId;
 
-    try {
-      // 고유한 Document ID를 생성합니다.
-      DocumentReference docRef = FirebaseFirestore.instance
-          .collection('content')
-          .doc();
+    FirebaseFirestore.instance.runTransaction((Transaction tx) async {
+      DocumentReference contentRef = FirebaseFirestore.instance.collection('content').doc();
+      uploadController.content.docPath = contentRef.path;
 
-      // 생성된 Document ID를 사용하여 contentPath를 포함한 데이터를 저장합니다.
-      uploadController.content.docPath = docRef.path;
-      await docRef.set(uploadController.content.toJson());
-      // 나머지 코드 ...
+      DocumentReference userRef = FirebaseFirestore.instance.collection('user').doc(userId);
+
+      // 콘텐츠 저장 및 포인트 증가
+      tx.set(contentRef, uploadController.content.toJson());
+      tx.update(userRef, {'point': FieldValue.increment(6)});
+
       Get.to(() => MainPage());
       Get.snackbar('업로드 성공', '성공적으로 업로드 되었습니다');
-    } catch (e) {
-      print('Error uploading content $e');
-    }
+    });
+  } catch (e) {
+    print('Error uploading content $e');
   }
 }
-
 
 
 /// firebase firestore content collection에서 content collection에서 title field가 keyword를 포함하는 문서들을 검색하여 반환하는 함수입니다.
