@@ -6,12 +6,16 @@ class UserModel {
   String email;
   String password;
   String? passwordApprove;
+  int point ;
+  List<Map<String,dynamic>>? purchasedContents;
 
 
   UserModel({
     required this.name,
     required this.email,
-    required this.password,
+    this.password = '',
+    this.purchasedContents,
+    this.point = 0,
   });
 
   bool validInput() {
@@ -42,21 +46,33 @@ class UserModel {
     return true;
   }
 
-  // Firebase Document로부터 UserModel 생성
+  // Firebase Document로부터 UserModel 생성 (purchase 할 때 사용)
   factory UserModel.fromDocument(Map<String, dynamic> doc) {
+    // 'purchasedContents' 필드의 데이터를 안전하게 변환합니다.
+    List<Map<String, dynamic>>? safePurchasedContents = (doc['purchasedContents'] as List<dynamic>?)
+        ?.map((item) => Map<String, dynamic>.from(item as Map))
+        .toList();
+
     return UserModel(
       name: doc['name'],
-      email: doc['email'], // 이메일로 사용될 수 있습니다.
-      password: doc['password'],
+      email: doc['email'],
+      purchasedContents: safePurchasedContents ?? <Map<String, dynamic>>[],
+      point: doc['point'],
+
     );
   }
 
-  // UserModel을 Map으로 변환
+  // UserModel을 Map으로 변환 (회원가입)
   Map<String, dynamic> toSignupDocument() {
     return {
       'name': name,
       'email': email,
-      'password': password,
+      'point' : point,
     };
+  }
+
+  @override
+  String toString() {
+    return 'UserModel{name: $name, email: $email, password: $password, passwordApprove: $passwordApprove, purchasedContents: $purchasedContents}';
   }
 }

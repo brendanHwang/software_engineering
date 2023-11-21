@@ -30,6 +30,7 @@ class MyApp extends StatelessWidget {
     Get.lazyPut(() => UserController());
     Get.lazyPut(() => PurchasedController());
     Get.lazyPut(() => UploadController());
+    Get.lazyPut(() => PurchasedController());
 
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,

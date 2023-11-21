@@ -82,11 +82,11 @@ class ContentsInfoScreen extends StatelessWidget {
               decoration: BoxDecoration(
                   color: const Color(0xFFd9d9d9),
                   borderRadius: BorderRadius.circular(30)),
-              child: const Padding(
-                padding: EdgeInsets.all(30.0),
+              child: Padding(
+                padding: const EdgeInsets.all(30.0),
                 child: Text(
-                  '한양대학교 컴퓨터소프트웨어학부 2023학년도 2학기 소프트웨어공학 xxx교수님 수업 내용 필기입니다.', //TODO: 자료 설명 content에 아직 이런 field가 없음
-                  style: TextStyle(
+                  "${content.fileDescription!}",
+                  style: const TextStyle(
                       fontSize: 20.0,
                       fontWeight: FontWeight.w400,
                       fontFamily: 'BMDOHYEN'),

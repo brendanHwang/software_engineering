@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:software_engineering/controllers/PurchasedController.dart';
 import 'package:software_engineering/screens/Screen.dart';
+import 'package:software_engineering/widgets/PurchasedContentCard.dart';
 import 'package:software_engineering/widgets/ReviewButton.dart';
 import 'package:software_engineering/widgets/SearchScreen/ContentCard.dart';
-import 'package:software_engineering/widgets/ReviewButton.dart' ;
+import 'package:software_engineering/widgets/ReviewButton.dart';
 
 class MyPage extends StatelessWidget {
   MyPage({Key? key}) : super(key: key);
@@ -28,32 +29,16 @@ class MyPage extends StatelessWidget {
             const SizedBox(
               height: 60,
             ),
-            StreamBuilder(
-                stream: purchasedController.getContentStream(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: snapshot.data!.length,
-                      itemBuilder: (context, index) {
-                        return Column(
-                          children: [
-                            ContentCard(
-                              index: index,
-                              content: snapshot.data![index],
-                              isSearchedContent: false,
-                            ),
-                            // 여기에 리뷰 버튼 위젯을 추가합니다.
-                            ReviewButton(),
-                          ],
-                        );
-                      },
-
-                    );
-                  } else {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                }),
+            ListView.builder(
+              shrinkWrap: true,
+              itemCount: purchasedController.purchasedContents.length,
+              itemBuilder: (context, index) {
+                return PurchasedContentCard(
+                  index: index,
+                  purchasedContent: purchasedController.purchasedContents[index],
+                );
+              },
+            ),
           ],
         ));
   }
