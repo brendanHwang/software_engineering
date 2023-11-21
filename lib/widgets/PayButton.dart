@@ -26,7 +26,7 @@ Future<void> decreasePoint(String userId) async {
   return firestore.runTransaction((Transaction tx) async {
     DocumentSnapshot postSnapshot = await tx.get(ref);
     if (postSnapshot.exists) {
-      var data = postSnapshot.data() as Map<String, dynamic>; // Here
+      var data = postSnapshot.data() as Map<String, dynamic>;
       if (data['point'] != null) {
         int newPoint = data['point'] - 3;
         tx.update(ref, <String, dynamic>{'point': newPoint});
