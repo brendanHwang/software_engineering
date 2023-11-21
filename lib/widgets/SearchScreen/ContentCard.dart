@@ -23,8 +23,9 @@ class ContentCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        if (isSearchedContent)
+        if (isSearchedContent) {
           Get.to(() => ContentsInfoScreen(content: content));
+        }
       },
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,

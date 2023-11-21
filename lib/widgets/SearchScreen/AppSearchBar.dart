@@ -21,6 +21,7 @@ class _AppSearchBarState extends State<AppSearchBar> {
       viewLeading: IconButton(
         onPressed: () {
           if(controller.text.isNotEmpty) {
+            // print("search: ${controller.text}");
             appSearchController.search(controller.text);
           }
           controller.closeView(controller.text);

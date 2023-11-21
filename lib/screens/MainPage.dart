@@ -58,8 +58,8 @@ class MainPage extends StatelessWidget {
                       //돋보기 아이콘
                       icon: const Icon(Icons.search),
                       color: Colors.grey, // 아이콘 색상
-                      onPressed: () {
-                        bool result = appSearchController.search(_controller.text);
+                      onPressed: () async {
+                        bool result = await appSearchController.search(_controller.text);
                         if (result) {
                           Get.to(() => SearchScreen());
                         }

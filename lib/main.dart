@@ -7,9 +7,7 @@ import 'package:software_engineering/controllers/LoginController.dart';
 import 'package:software_engineering/controllers/PurchasedController.dart';
 import 'package:software_engineering/controllers/UploadController.dart';
 import 'package:software_engineering/screens/AuthenticationWrapper.dart';
-import 'package:software_engineering/screens/upload/UploadScreen.dart';
-import 'package:software_engineering/screens/upload/WriteScreen.dart';
-
+import 'package:software_engineering/screens/SearchScreen.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -41,7 +39,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: const AuthenticationWrapper(),
-      // home:  WriteScreen(),
+      // home: SearchScreen(),
     );
   }
 }

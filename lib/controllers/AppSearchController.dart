@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:software_engineering/constants/AppConst.dart';
 import 'package:software_engineering/models/Content.dart';
+import 'package:software_engineering/utils/firebase_firestore_util.dart';
 
 class AppSearchController extends GetxController {
   final searchedContents = <Content>[].obs;
@@ -15,19 +15,28 @@ class AppSearchController extends GetxController {
     selectedContent = content.obs;
   }
 
-  bool search(String keyword) {
+  Future<bool> search(String keyword) async {
     if (keyword.length < 2) {
       Get.snackbar('검색어 오류', '검색어는 2글자 이상이어야 합니다.');
       return false;
     }
 
-    // TODO: 실제로 firebase를 호출하는 함수를 구현해야됨 아직은 hard coding
-    searchedContents.value = AppConst.searchedContents
-        .where((element) => element.title!.contains(keyword))
-        .toList();
+    await searchContent(keyword);
+
+    filteredContents.value = searchedContents;
     filter();
+    print('after filter');
+    for(var i = 0; i < filteredContents.length; i++) {
+      print(filteredContents[i].toString());
+    }
     sort();
     searchHistory.addIf(!searchHistory.contains(keyword), keyword);
+
+
+    // print('검색 결과');
+    // for(var i = 0; i < filteredContents.length; i++) {
+    //   print(filteredContents[i].title);
+    // }
     return true;
   }
 
@@ -48,6 +57,7 @@ class AppSearchController extends GetxController {
       // print('최신순 정렬');
       // for (var i = 0; i < sortedList.length; i++) {
       //   print('${sortedList[i].title}:  ${sortedList[i].uploadDateTime}');
+      // }
     } else if (sortValue.value == '리뷰순') {
       // 리뷰 점수 순으로 정렬합니다.
       sortedList

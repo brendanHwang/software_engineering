@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:software_engineering/constants/AppConst.dart';
 import 'package:software_engineering/constants/AppString.dart';
@@ -20,61 +21,63 @@ class Content {
   DateTime? purchasedDateTime; // 자료 다운로드 날짜 (다운로든는 nullalbe)
 
   Content(
-      { this.userID,
-       this.fileDescription,
-       this.filePath,
-       this.contentType,
-       this.title,
-       this.fileName,
-       this.department,
-       this.soldNum = 0,
-       this.review = const {},
+      {this.userID,
+      this.fileDescription,
+      this.filePath,
+      this.contentType,
+      this.title,
+      this.fileName,
+      this.department,
+      this.soldNum = 0,
+      this.review = const {
+        AppString.like: 0,
+        AppString.normal: 0,
+        AppString.dislike: 0,
+      },
       this.profName,
       this.contentYear,
-       this.uploadDateTime,
+      this.uploadDateTime,
       this.purchasedDateTime});
 
   factory Content.fromJson(Map<String, dynamic> json) {
     return Content(
-        userID: json['userID'],
-        fileDescription: json['fileDescription'],
-        filePath: json['filePath'],
-        contentType: json['contentType'],
-        title: json['title'],
-        fileName: json['fileName'],
-        department: json['department'],
-        soldNum: json['soldNum'],
-        review: json['review'],
-        profName: json['profName'],
-        contentYear: json['contentYear'] == null
-            ? null
-            : DateTime.parse(json['contentYear']),
-        uploadDateTime: DateTime.parse(json['uploadDateTime']),
-        purchasedDateTime: json['purchasedDateTime'] == null
-            ? null
-            : DateTime.parse(json['purchasedDateTime']));
+      userID: json['userID'],
+      fileDescription: json['fileDescription'],
+      filePath: json['filePath'],
+      contentType: json['contentType'],
+      title: json['title'],
+      fileName: json['fileName'],
+      department: json['department'],
+      soldNum: json['soldNum'],
+      review: json['review'],
+      profName: json['profName'],
+      contentYear: json['contentYear'] == null
+          ? null
+          : (json['contentYear'] as Timestamp).toDate(),
+      uploadDateTime: json['uploadDateTime'] == null
+          ? null
+          : (json['uploadDateTime'] as Timestamp).toDate(),
+      purchasedDateTime: json['purchasedDateTime'] == null
+          ? null
+          : (json['purchasedDateTime'] as Timestamp).toDate(),
+    );
   }
 
   Map<String, dynamic> toJson() => {
-        'userID': userID,
-        'fileDescription': fileDescription,
-        'filePath': filePath,
-        'contentType': contentType,
-        'title': title,
-        'fileName': fileName,
-        'department': department,
-        'soldNum': soldNum,
-        'review': review,
-        'profName': profName,
-        'contentYear':
-            contentYear == null ? null : contentYear!.toIso8601String(),
-        'uploadDateTime': uploadDateTime == null
-            ? null
-            : uploadDateTime!.toIso8601String(),
-        'purchasedDateTime': purchasedDateTime == null
-            ? null
-            : purchasedDateTime!.toIso8601String(),
-      };
+    'userID': userID,
+    'fileDescription': fileDescription,
+    'filePath': filePath,
+    'contentType': contentType,
+    'title': title,
+    'fileName': fileName,
+    'department': department,
+    'soldNum': soldNum,
+    'review': review,
+    'profName': profName,
+    'contentYear': contentYear == null ? null : Timestamp.fromDate(contentYear!),
+    'uploadDateTime': uploadDateTime == null ? null : Timestamp.fromDate(uploadDateTime!),
+    'purchasedDateTime': purchasedDateTime == null ? null : Timestamp.fromDate(purchasedDateTime!),
+  };
 
   String getReviewString(String key) {
     if (review[key]! < 10) {
@@ -127,28 +130,33 @@ class Content {
 
   /// 필수 항목에 대한 검사 진행
   /// 필수 항목 - title, contentType, fileName, department, fileDescription
-  bool uploadValidation(){
-    if(title == null || title!.isEmpty){
+  bool uploadValidation() {
+    if (title == null || title!.isEmpty) {
       Get.snackbar("업로드 실패", "제목을 입력해주세요");
       return false;
     }
-    if(contentType == null || contentType!.isEmpty){
+    if (contentType == null || contentType!.isEmpty) {
       Get.snackbar("업로드 실패", "자료 유형을 선택해주세요");
       return false;
     }
-    if(fileName == null || fileName!.isEmpty){
+    if (fileName == null || fileName!.isEmpty) {
       Get.snackbar("업로드 실패", "파일을 드래그앤드롭 하여 올려주세요");
       Get.to(UploadScreen());
       return false;
     }
-    if(department == null || department!.isEmpty){
+    if (department == null || department!.isEmpty) {
       Get.snackbar("업로드 실패", "학과를 입력해주세요");
       return false;
     }
-    if(fileDescription == null || fileDescription!.isEmpty){
+    if (fileDescription == null || fileDescription!.isEmpty) {
       Get.snackbar("업로드 실패", "자료 내용을 입력해주세요");
       return false;
     }
     return true;
+  }
+
+  @override
+  String toString() {
+    return 'userID: $userID, fileDescription: $fileDescription, filePath: $filePath, contentType: $contentType, title: $title, fileName: $fileName, department: $department, soldNum: $soldNum, review: $review, profName: $profName, contentYear: $contentYear, uploadDateTime: $uploadDateTime, purchasedDateTime: $purchasedDateTime';
   }
 }
