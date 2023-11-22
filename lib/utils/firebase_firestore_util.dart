@@ -102,7 +102,7 @@ Future<void> getPurchasedContents() async {
     }
 
     var userPurchasedContents = (userDoc.data() as Map<String, dynamic>)['purchasedContents'];
-
+    var purchasedContents = <PurchasedContent>[];
 
     if (userPurchasedContents != null) {
       for (var purchase in userPurchasedContents) {
@@ -112,9 +112,10 @@ Future<void> getPurchasedContents() async {
         if (contentDoc.exists) {
           Content content = Content.fromJson(contentDoc.data()!); // Content 객체 생성
 
-          purchasedController.purchasedContents.add(PurchasedContent(content: content, purchasedDateTime: (purchase['purchasedDateTime'] as Timestamp).toDate(), review: purchase['review']));
+          purchasedContents.add(PurchasedContent(content: content, purchasedDateTime: (purchase['purchasedDateTime'] as Timestamp).toDate(), review: purchase['review']));
         }
       }
+      purchasedController.purchasedContents = purchasedContents;
     }
   } catch (e) {
     print('Error getting purchased contents $e');
