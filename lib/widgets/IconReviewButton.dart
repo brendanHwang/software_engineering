@@ -26,10 +26,7 @@ class IconReviewButton extends StatelessWidget {
         children: [
           IconButton(
             icon: const Icon(Icons.tag_faces_outlined, size: 40, color: Colors.black),
-            onPressed: () {
-              //포인트 추가
-
-            },
+            onPressed: null, //아이콘 버튼 못누르도록.
             style: ButtonStyle(
               padding: MaterialStateProperty.all(EdgeInsets.zero),
               minimumSize: MaterialStateProperty.all(Size.zero),
@@ -47,7 +44,7 @@ class IconReviewButton extends StatelessWidget {
             width: 15,
           ),
           IconButton(
-              onPressed: () {},
+              onPressed: null,
               icon: const Icon(Icons.sentiment_neutral_outlined,
                   size: 40, color: Colors.black),
               style: ButtonStyle(
@@ -67,7 +64,7 @@ class IconReviewButton extends StatelessWidget {
             width: 15,
           ),
           IconButton(
-              onPressed: () {},
+              onPressed: null,
               icon: const Icon(Icons.sentiment_dissatisfied_outlined,
                   size: 40, color: Colors.black),
               style: ButtonStyle(

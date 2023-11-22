@@ -7,13 +7,15 @@ import 'package:software_engineering/widgets/DownloadButton.dart';
 import 'package:software_engineering/widgets/IconReviewButton.dart';
 import 'package:software_engineering/widgets/SearchScreen/IconReviewView.dart';
 import 'package:software_engineering/widgets/PayButton.dart';
+import '../ReviewButton.dart';
 
 class ContentCard extends StatelessWidget {
   const ContentCard(
       {Key? key,
       required this.index,
       required this.content,
-      this.isSearchedContent = true})
+      this.isSearchedContent = true,
+      })
       : super(key: key);
   final int index;
   final Content content;
@@ -57,7 +59,7 @@ class ContentCard extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    width: 200,
+                    width: 100,
                     child: Text('${content.contentType}',
                         style: const TextStyle(
                             fontSize: 25,
@@ -106,6 +108,7 @@ class ContentCard extends StatelessWidget {
             width: 50,
           ),
           isSearchedContent ? const PayButton() : const DownloadButton(),
+          isSearchedContent ? const SizedBox() : ReviewButton(),
         ],
       ),
     );

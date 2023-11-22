@@ -43,8 +43,7 @@ class MyPage extends StatelessWidget {
                               content: snapshot.data![index],
                               isSearchedContent: false,
                             ),
-                            // 여기에 리뷰 버튼 위젯을 추가합니다.
-                            ReviewButton(),
+
                           ],
                         );
                       },
