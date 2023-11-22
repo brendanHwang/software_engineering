@@ -3,9 +3,6 @@ import 'package:get/get.dart';
 import 'package:software_engineering/controllers/PurchasedController.dart';
 import 'package:software_engineering/screens/Screen.dart';
 import 'package:software_engineering/widgets/PurchasedContentCard.dart';
-import 'package:software_engineering/widgets/ReviewButton.dart';
-import 'package:software_engineering/widgets/SearchScreen/ContentCard.dart';
-import 'package:software_engineering/widgets/ReviewButton.dart';
 
 class MyPage extends StatelessWidget {
   MyPage({Key? key}) : super(key: key);
