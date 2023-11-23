@@ -84,7 +84,6 @@ class PurchasedContentCard extends StatelessWidget {
           ],
         ),
         const Spacer(),
-
         IconReviewButton(
             like: purchasedContent.content.getReviewString(AppString.like),
             normal: purchasedContent.content.getReviewString(AppString.normal),
@@ -93,8 +92,8 @@ class PurchasedContentCard extends StatelessWidget {
         const SizedBox(
           width: 50,
         ),
-        const DownloadButton(),
-         ReviewButton(),
+        DownloadButton(docPath: purchasedContent.content.docPath),
+        ReviewButton(),
       ],
     );
   }
