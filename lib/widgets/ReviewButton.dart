@@ -16,9 +16,9 @@ class ReviewController extends GetxController {
 
 class ReviewButton extends StatefulWidget {
   final PurchasedContent purchasedContent;
-  final index;
+  final int index;
 
-  ReviewButton({Key? key, required this.purchasedContent, this.index}) : super(key: key);
+  ReviewButton({Key? key, required this.purchasedContent,required this.index}) : super(key: key);
 
   @override
   State<ReviewButton> createState() => _ReviewButtonState();
@@ -47,10 +47,10 @@ class _ReviewButtonState extends State<ReviewButton> {
     }
     setState(() {
       isReviewSubmitted = true;
-
     });
-
-    // Get.back();
+    // TODO : firestore에 리뷰 업데이트 purchasedController.purchasedContents[widget.index].review 의 값으로 업데이트
+    // TODO : user collection의 firebaseauth의 userid 해당하는 document의 purchasedContents 필드에 index에 해당하는 review 필드 업데이트
+    // TODO : purchasedContents  docPath 에 해당하는 document의 review 필드 업데이트
   }
 
   @override
