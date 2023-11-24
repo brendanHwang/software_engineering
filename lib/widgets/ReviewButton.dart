@@ -54,9 +54,6 @@ class _ReviewButtonState extends State<ReviewButton> {
     });
 
 
-
-
-
     // TODO : firestore에 리뷰 업데이트 purchasedController.purchasedContents[widget.index].review 값을 기준으로
     print("purchasedController.purchasedContents[widget.index].review: ${purchasedController.purchasedContents[widget.index].review}");
 
