@@ -94,8 +94,9 @@ class PurchasedContentCard extends StatelessWidget {
                 purchasedContent.content.getReviewString(AppString.dislike)),
         const Gap(25),
         DownloadButton(docPath: purchasedContent.content.docPath),
-        ReviewButton(),
+        ReviewButton(purchasedContent: purchasedContent, index: index,),
       ],
+
     );
   }
 }
