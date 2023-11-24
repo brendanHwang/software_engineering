@@ -33,7 +33,7 @@ class ContentsInfoScreen extends StatelessWidget {
                     style: const TextStyle(
                         fontSize: 30.0,
                         fontWeight: FontWeight.w400,
-                        fontFamily: 'BMDOHYEN'),
+                    ),
                   ),
                   // 자료 유형
                   Text(
@@ -41,7 +41,7 @@ class ContentsInfoScreen extends StatelessWidget {
                     style: const TextStyle(
                         fontSize: 30.0,
                         fontWeight: FontWeight.w400,
-                        fontFamily: 'BMDOHYEN'),
+                        ),
                   ),
                   // 학과
                   Text(
@@ -49,7 +49,7 @@ class ContentsInfoScreen extends StatelessWidget {
                     style: const TextStyle(
                         fontSize: 30.0,
                         fontWeight: FontWeight.w400,
-                        fontFamily: 'BMDOHYEN'),
+                        ),
                   ),
                 ],
               ),
@@ -91,7 +91,7 @@ class ContentsInfoScreen extends StatelessWidget {
                   style: const TextStyle(
                       fontSize: 20.0,
                       fontWeight: FontWeight.w400,
-                      fontFamily: 'BMDOHYEN'),
+                      ),
                 ),
               ),
             ),

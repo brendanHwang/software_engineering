@@ -102,8 +102,8 @@ Future<void> getPurchasedContents() async {
     }
 
     var userPurchasedContents = (userDoc.data() as Map<String, dynamic>)['purchasedContents'];
-    var purchasedContents = <PurchasedContent>[];
 
+    purchasedController.purchasedContents = RxList<PurchasedContent>();
     if (userPurchasedContents != null) {
       for (var purchase in userPurchasedContents) {
         String docPath = purchase['docPath'];
@@ -112,10 +112,9 @@ Future<void> getPurchasedContents() async {
         if (contentDoc.exists) {
           Content content = Content.fromJson(contentDoc.data()!); // Content 객체 생성
 
-          purchasedContents.add(PurchasedContent(content: content, purchasedDateTime: (purchase['purchasedDateTime'] as Timestamp).toDate(), review: purchase['review']));
+          purchasedController.purchasedContents.add(PurchasedContent(content: content, purchasedDateTime: (purchase['purchasedDateTime'] as Timestamp).toDate(), review: purchase['review'])); // 구매 내역에 추가
         }
       }
-      purchasedController.purchasedContents = purchasedContents;
     }
   } catch (e) {
     print('Error getting purchased contents $e');
