@@ -46,6 +46,8 @@ class LoginScreen extends StatelessWidget {
                     ElevatedButton(
                       onPressed: () {
                         loginController.login();
+                        passwordController.clear();
+                        idController.clear();
                       },
                       child: const Text("로그인"),
                     ),

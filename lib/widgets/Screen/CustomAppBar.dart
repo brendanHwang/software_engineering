@@ -155,6 +155,7 @@ void _showDeleteAccountDialog(BuildContext context) {
             Text('비밀번호를 입력하세요:'),
             TextFormField(
               obscureText: true,
+              obscuringCharacter: '*',
               onChanged: (value) {
                 password = value;
               },

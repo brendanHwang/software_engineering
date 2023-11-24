@@ -5,6 +5,7 @@ import 'package:software_engineering/models/PurchasedContent.dart';
 import 'package:software_engineering/widgets/DownloadButton.dart';
 import 'package:software_engineering/widgets/IconReviewButton.dart';
 import 'package:software_engineering/widgets/ReviewButton.dart';
+import 'package:software_engineering/widgets/SearchScreen/IconReviewView.dart';
 
 class PurchasedContentCard extends StatelessWidget {
   const PurchasedContentCard({
@@ -86,7 +87,7 @@ class PurchasedContentCard extends StatelessWidget {
           ],
         ),
         const Spacer(),
-        IconReviewButton(
+        IconReviewView(
             like: purchasedContent.content.getReviewString(AppString.like),
             normal: purchasedContent.content.getReviewString(AppString.normal),
             dislike:

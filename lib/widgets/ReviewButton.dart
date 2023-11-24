@@ -19,7 +19,6 @@ class ReviewController extends GetxController {
 
 class ReviewButton extends StatelessWidget {
   final ReviewController reviewController = Get.put(ReviewController());
-
   // 리뷰 제출
   void submitReview() {
     // 리뷰 제출 후 리뷰 상태 업데이트

@@ -75,4 +75,14 @@ class UserModel {
   String toString() {
     return 'UserModel{name: $name, email: $email, password: $password, passwordApprove: $passwordApprove, purchasedContents: $purchasedContents}';
   }
+
+
+  void reset() {
+    name = '';
+    email = '';
+    password = '';
+    passwordApprove = '';
+    purchasedContents = <Map<String, dynamic>>[];
+    point = 0;
+  }
 }
