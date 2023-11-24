@@ -12,6 +12,4 @@ class PurchasedController extends GetxController{
        print(purchasedContents[i].toString());
      }
   }
-
-
 }
