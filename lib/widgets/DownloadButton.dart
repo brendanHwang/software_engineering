@@ -1,10 +1,8 @@
 import 'dart:html';
-import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 
 class DownloadButton extends StatelessWidget {
   final String? docPath;

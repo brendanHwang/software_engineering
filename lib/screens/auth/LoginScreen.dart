@@ -39,6 +39,7 @@ class LoginScreen extends StatelessWidget {
                       onChanged: (value) => loginController.user.value.password = value,
                       controller: passwordController,
                       obscureText: true,
+                      obscuringCharacter: '*',
                       decoration: const InputDecoration(labelText: "비밀번호"),
                     ),
                     const SizedBox(height: 20),

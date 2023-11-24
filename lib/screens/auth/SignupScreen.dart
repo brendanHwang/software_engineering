@@ -49,13 +49,16 @@ class SignupScreen extends StatelessWidget {
                       controller: passwordController,
                       onChanged: (value) => signupController.user.value.password = value,
                       obscureText: true,
+                      obscuringCharacter: '*',
                       decoration: const InputDecoration(labelText: "비밀번호"),
+
                     ),
                     const SizedBox(height: 20),
                     TextField(
                       controller: passwordApproveController,
                       onChanged: (value) => signupController.user.value.password = value,
                       obscureText: true,
+                      obscuringCharacter: '*',
                       decoration: const InputDecoration(labelText: "비밀번호 확인"),
                     ),
                     const SizedBox(height: 20),

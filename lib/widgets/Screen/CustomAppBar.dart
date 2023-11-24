@@ -60,7 +60,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const CircularProgressIndicator();
           } else if (snapshot.hasError) {
-            return Text('Error: ${snapshot.error}');
+            return Text('Error: ${snapshot.error}',
+            );
           } else {
             return _buildAppBarAction(
               text: '포인트: ${snapshot.data}',
@@ -120,6 +121,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             fontSize: 21,
             fontWeight: FontWeight.bold,
             color: Colors.black,
+
           ),
         ),
       ),

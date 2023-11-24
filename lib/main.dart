@@ -34,8 +34,10 @@ class MyApp extends StatelessWidget {
 
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
+
       title: 'software engineering',
       theme: ThemeData(
+        fontFamily: 'BMDOHYEON',//폰트적
         colorScheme:
             ColorScheme.fromSeed(seedColor: const Color(AppColor.mainColor)),
         useMaterial3: true,
