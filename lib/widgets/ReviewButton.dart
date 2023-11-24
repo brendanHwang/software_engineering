@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:software_engineering/controllers/PurchasedController.dart';
+import 'package:software_engineering/controllers/PwChangeController.dart';
 import 'package:software_engineering/models/PurchasedContent.dart';
 
 class ReviewController extends GetxController {
@@ -40,17 +41,31 @@ class _ReviewButtonState extends State<ReviewButton> {
     // 리뷰 제출 후, 리뷰 버튼 비활성화 처리
     if(reviewController.selectedReview.value == 'like') {
       purchasedController.updateReview(widget.index, 1);
+      purchasedController.purchasedContents[widget.index].content.review["좋아요"] = purchasedController.purchasedContents[widget.index].content.review["좋아요"]! + 1;
     } else if(reviewController.selectedReview.value == 'normal') {
       purchasedController.updateReview(widget.index, 0);
+      purchasedController.purchasedContents[widget.index].content.review["보통이에요"] = purchasedController.purchasedContents[widget.index].content.review["보통이에요"]! + 1;
     } else if(reviewController.selectedReview.value == 'dislike') {
       purchasedController.updateReview(widget.index, -1);
+      purchasedController.purchasedContents[widget.index].content.review["별로에요"] = purchasedController.purchasedContents[widget.index].content.review["별로에요"]! + 1;
     }
     setState(() {
       isReviewSubmitted = true;
     });
-    // TODO : firestore에 리뷰 업데이트 purchasedController.purchasedContents[widget.index].review 의 값으로 업데이트
+
+
+
+
+
+    // TODO : firestore에 리뷰 업데이트 purchasedController.purchasedContents[widget.index].review 값을 기준으로
+    print("purchasedController.purchasedContents[widget.index].review: ${purchasedController.purchasedContents[widget.index].review}");
+
     // TODO : user collection의 firebaseauth의 userid 해당하는 document의 purchasedContents 필드에 index에 해당하는 review 필드 업데이트
-    // TODO : purchasedContents  docPath 에 해당하는 document의 review 필드 업데이트
+    print("firebaseAuth.currentUser!.uid: ${firebaseAuth.currentUser!.uid}");
+    print("widget.index: ${widget.index}");
+
+    // TODO : content collection의 docPath에 해당하는 document의 review 필드 업데이트
+    print("purchasedController.purchasedContents[widget.index].content.docPath: ${purchasedController.purchasedContents[widget.index].content.docPath}");
   }
 
   @override
