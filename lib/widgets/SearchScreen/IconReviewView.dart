@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 
 class IconReviewView extends StatelessWidget {
   const IconReviewView({Key? key, required this.like, required this.normal, required this.dislike}) : super(key: key);
@@ -16,42 +17,42 @@ class IconReviewView extends StatelessWidget {
       child: Row(
         children: [
           const Icon(Icons.tag_faces_outlined, size: 40, color: Colors.black),
-          const SizedBox(
-            width: 15,
+          const Gap(
+            15,
           ),
           SizedBox(
             width: 50,
             child: Text(like,
                 style: const TextStyle(fontSize: 20, color: Colors.black)),
           ),
-          const SizedBox(
-            width: 15,
+          const Gap(
+            15,
           ),
           const Icon(Icons.sentiment_neutral_outlined,
               size: 40, color: Colors.black),
-          const SizedBox(
-            width: 15,
+          const Gap(
+            15,
           ),
           SizedBox(
             width: 50,
             child: Text(normal,
                 style: const TextStyle(fontSize: 20, color: Colors.black)),
           ),
-          const SizedBox(
-            width: 15,
+          const Gap(
+            15,
           ),
           const Icon(Icons.sentiment_dissatisfied_outlined,
               size: 40, color: Colors.black),
-          const SizedBox(
-            width: 15,
+          const Gap(
+            15,
           ),
           SizedBox(
             width: 50,
             child: Text(dislike,
                 style: const TextStyle(fontSize: 20, color: Colors.black)),
           ),
-          const SizedBox(
-            width: 15,
+          const Gap(
+            15,
           ),
         ],
       ),

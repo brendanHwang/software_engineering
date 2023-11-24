@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:software_engineering/constants/AppString.dart';
 import 'package:software_engineering/models/Content.dart';
@@ -20,9 +21,7 @@ class SearchContentCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-
           Get.to(() => ContentsInfoScreen(content: content));
-
       },
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -34,7 +33,7 @@ class SearchContentCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   SizedBox(
-                    width: 50,
+                    width: 30,
                     child: Text('${index + 1}.',
                         style: const TextStyle(
                             fontSize: 25,
@@ -46,38 +45,42 @@ class SearchContentCard extends StatelessWidget {
                     child: Text(
                       content.title!,
                       style: const TextStyle(
-                        fontSize: 25,
+                        fontSize: 23,
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
                       ),
-                      overflow: TextOverflow.fade,
+                      overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                     ),
                   ),
-                  SizedBox(
-                    width: 200,
-                    child: Text(content.contentType!,
-                        style: const TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey)),
-                  ),
                 ],
               ),
-              const SizedBox(
-                height: 10,
+              const Gap(
+                10,
               ),
               Row(
                 children: [
-                  const SizedBox(
-                    width: 50,
+                  const Gap(
+                     50,
+                  ),
+
+                  SizedBox(
+                    width: 100,
+                    child: Text(content.contentType!,
+                        style: const TextStyle(
+                            fontSize: 23,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey)),
+                  ),
+                  const Gap(
+                    50,
                   ),
                   Text(content.fileName!,
                       style: const TextStyle(fontSize: 20, color: Colors.grey)),
                 ],
               ),
-              const SizedBox(
-                height: 30,
+              const Gap(
+                30,
               ),
             ],
           ),
@@ -86,8 +89,8 @@ class SearchContentCard extends StatelessWidget {
               like: content.getReviewString(AppString.like),
               normal: content.getReviewString(AppString.normal),
               dislike: content.getReviewString(AppString.dislike)),
-          const SizedBox(
-            width: 50,
+          const Gap(
+            25,
           ),
           // PayButton, DownloadButton 문서 ID 인자로 받을 것임
           PayButton(docPath: content.docPath)

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:software_engineering/constants/AppString.dart';
 import 'package:software_engineering/models/PurchasedContent.dart';
 import 'package:software_engineering/widgets/DownloadButton.dart';
@@ -26,7 +27,7 @@ class PurchasedContentCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 SizedBox(
-                  width: 50,
+                  width: 30,
                   child: Text('${index + 1}.',
                       style: const TextStyle(
                           fontSize: 25,
@@ -34,29 +35,19 @@ class PurchasedContentCard extends StatelessWidget {
                           color: Colors.black)),
                 ),
                 SizedBox(
-                  width: 300,
+                  width: 350,
                   child: Text(
                     purchasedContent.content.title!,
                     style: const TextStyle(
-                      fontSize: 25,
+                      fontSize: 23,
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
                     ),
-                    overflow: TextOverflow.fade,
+                    overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                   ),
                 ),
-                SizedBox(
-                  width: 200,
-                  child: Text(purchasedContent.content.contentType!,
-                      style: const TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.grey)),
-                ),
-                //  구매내역은 경우 언제 구매했는지 표시
-                //TODO : 구매내역은 경우 언제 구매했는지 표시
-
+                const Gap(10),
                 Text(
                   '${purchasedContent.purchasedDateTime.year}/${purchasedContent.purchasedDateTime.month}/${purchasedContent.purchasedDateTime.day}',
                   style: const TextStyle(
@@ -66,20 +57,31 @@ class PurchasedContentCard extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(
-              height: 10,
+            const Gap(
+              10,
             ),
             Row(
               children: [
-                const SizedBox(
-                  width: 50,
+                const Gap(
+                  50,
+                ),
+                SizedBox(
+                  width: 100,
+                  child: Text(purchasedContent.content.contentType!,
+                      style: const TextStyle(
+                          fontSize: 23,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.grey)),
+                ),
+                const Gap(
+                  50,
                 ),
                 Text(purchasedContent.content.fileName!,
                     style: const TextStyle(fontSize: 20, color: Colors.grey)),
               ],
             ),
-            const SizedBox(
-              height: 30,
+            const Gap(
+               30,
             ),
           ],
         ),
@@ -89,9 +91,7 @@ class PurchasedContentCard extends StatelessWidget {
             normal: purchasedContent.content.getReviewString(AppString.normal),
             dislike:
                 purchasedContent.content.getReviewString(AppString.dislike)),
-        const SizedBox(
-          width: 50,
-        ),
+        const Gap(25),
         DownloadButton(docPath: purchasedContent.content.docPath),
         ReviewButton(),
       ],
