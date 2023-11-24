@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:software_engineering/constants/AppString.dart';
 import 'package:software_engineering/models/PurchasedContent.dart';
 import 'package:software_engineering/widgets/DownloadButton.dart';
@@ -10,9 +11,11 @@ class PurchasedContentCard extends StatelessWidget {
     Key? key,
     required this.index,
     required this.purchasedContent,
+    required this.reviewController,
   }) : super(key: key);
   final int index;
   final PurchasedContent purchasedContent;
+  final ReviewController reviewController;
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +96,11 @@ class PurchasedContentCard extends StatelessWidget {
           width: 50,
         ),
         DownloadButton(docPath: purchasedContent.content.docPath),
-        ReviewButton(),
+        ReviewButton(
+          reviewController: reviewController,
+          docPath: purchasedContent.content.docPath,
+          index: index,
+        ),
       ],
     );
   }
