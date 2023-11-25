@@ -33,7 +33,6 @@ class MyApp extends StatelessWidget {
 
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-
       title: 'software engineering',
       theme: ThemeData(
         fontFamily: 'BMDOHYEON',//폰트적

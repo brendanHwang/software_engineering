@@ -2,7 +2,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dropzone/flutter_dropzone.dart';
 import 'package:get/get.dart';
-import 'package:software_engineering/controllers/LoginController.dart';
 import 'package:software_engineering/controllers/UploadController.dart';
 import 'package:software_engineering/screens/Screen.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -15,8 +14,7 @@ class UploadScreen extends StatelessWidget {
   var idController = TextEditingController();
   var passwordController = TextEditingController();
   late DropzoneViewController controller;
-  final uploadController =
-  Get.find<UploadController>(); // UploadController 인스턴스를 찾음
+  final uploadController = Get.find<UploadController>(); // UploadController 인스턴스를 찾음
 
   UploadScreen({super.key});
 
