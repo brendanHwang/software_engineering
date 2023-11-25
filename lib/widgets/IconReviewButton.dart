@@ -44,6 +44,7 @@ class IconReviewButton extends StatelessWidget {
           ),
           SizedBox(
             width: 50,
+            //Streambuilder로 데이터 가져옴
             child: StreamBuilder(
               stream: FirebaseFirestore.instance
                   .collection('content')
@@ -93,6 +94,7 @@ class IconReviewButton extends StatelessWidget {
           ),
           SizedBox(
             width: 50,
+            //Streambuilder로 데이터 가져옴
             child: StreamBuilder(
               stream: FirebaseFirestore.instance
                   .collection('content')
@@ -142,6 +144,7 @@ class IconReviewButton extends StatelessWidget {
           ),
           SizedBox(
             width: 50,
+            //Streambuilder로 데이터 가져옴
             child: StreamBuilder(
               stream: FirebaseFirestore.instance
                   .collection('content')

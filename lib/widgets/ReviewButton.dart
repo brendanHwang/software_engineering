@@ -13,9 +13,13 @@ import 'package:software_engineering/widgets/PayButton.dart';
 
 class ReviewController extends GetxController {
   var selectedReview = RxString('');
-
+  var isReviewNull = RxBool(false);
   void setSelectedReview(String review) {
     selectedReview(review);
+  }
+
+  void setIsReviewNull(bool value) {
+    isReviewNull(value);
   }
 }
 
@@ -57,7 +61,7 @@ class ReviewButton extends StatelessWidget {
         reviewNum = null;
         break;
     }
-
+    //content 에 review 값 반영
     if (docPath != null) {
       List<String> pathParts = docPath!.split('/');
       String docID = pathParts.length > 1 ? pathParts[1] : '';
@@ -66,6 +70,8 @@ class ReviewButton extends StatelessWidget {
         'review.$reviewText': FieldValue.increment(1),
       });
 
+      //User 에 review 여부 반영
+      //'좋아요'는 1, '보통이에요'는 0, '싫어요'는 -1
       DocumentReference<Map<String, dynamic>> docRef = FirebaseFirestore
           .instance
           .collection('user')
@@ -81,6 +87,8 @@ class ReviewButton extends StatelessWidget {
             Map<String, dynamic>.from(purchasedContents[index]);
         updatedItem['review'] = reviewNum;
 
+        purchasedContents[index] = updatedItem;
+
         await docRef.update({'purchasedContents': purchasedContents});
       } else {
         print('문서를 찾을 수 없습니다.');
@@ -91,31 +99,34 @@ class ReviewButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      return IconButton(
-        onPressed: () async {
-          bool isReviewNull = false;
+      final isReviewNullValue = reviewController.isReviewNull.value;
 
-          DocumentReference<Map<String, dynamic>> docRef = FirebaseFirestore
-              .instance
-              .collection('user')
-              .doc(getCurrentUserUid());
+      // Firestore 데이터 확인하여 isReviewNull 값 업데이트
+      FirebaseFirestore.instance
+          .collection('user')
+          .doc(getCurrentUserUid())
+          .get()
+          .then((docSnapshot) {
+        if (docSnapshot.exists) {
+          List<dynamic> purchasedContents =
+              docSnapshot.data()?['purchasedContents'];
 
-          DocumentSnapshot<Map<String, dynamic>> docSnapshot =
-              await docRef.get();
-
-          if (docSnapshot.exists) {
-            List<dynamic> purchasedContents =
-                docSnapshot.data()?['purchasedContents'];
-
-            dynamic item = purchasedContents[index];
-            if (item['review'] == null) {
-              isReviewNull = true;
-            }
-          } else {
-            print('문서를 찾을 수 없습니다.');
+          dynamic item = purchasedContents[index];
+          //Firestore 에서 review가 null인지 확인
+          if (item['review'] == null) {
+            reviewController.setIsReviewNull(true);
           }
+        } else {
+          print('문서를 찾을 수 없습니다.');
+        }
+      }).catchError((error) {
+        print('Firestore 데이터 가져오기 에러: $error');
+      });
+      return IconButton(
+        onPressed: () {
           // 기존에 리뷰가 등록되었다면 동작하지 않도록 처리
-          if (reviewController.selectedReview.value.isEmpty || isReviewNull) {
+          if (reviewController.selectedReview.value.isEmpty &&
+              reviewController.isReviewNull.value) {
             Get.defaultDialog(
               // ... 이전과 동일한 다이얼로그 코드 ...
               title: '리뷰 선택',
@@ -194,7 +205,8 @@ class ReviewButton extends StatelessWidget {
           Icons.reviews_rounded,
           size: 40,
           // 리뷰가 제출된 콘텐츠의 리뷰 버튼은 회색으로 변경
-          color: reviewController.selectedReview.value == 'submitted'
+          color: (reviewController.selectedReview.value == 'submitted' ||
+                  !reviewController.isReviewNull.value)
               ? Colors.grey
               : Colors.black,
         ),
