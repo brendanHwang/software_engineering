@@ -12,7 +12,6 @@ import 'dart:typed_data';
 import 'package:software_engineering/screens/upload/WriteScreen.dart';
 
 class UploadScreen extends StatelessWidget {
-  final UserController loginController = Get.find();
   var idController = TextEditingController();
   var passwordController = TextEditingController();
   late DropzoneViewController controller;
