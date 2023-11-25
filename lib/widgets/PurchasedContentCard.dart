@@ -91,7 +91,8 @@ class PurchasedContentCard extends StatelessWidget {
             like: purchasedContent.content.getReviewString(AppString.like),
             normal: purchasedContent.content.getReviewString(AppString.normal),
             dislike:
-                purchasedContent.content.getReviewString(AppString.dislike)),
+                purchasedContent.content.getReviewString(AppString.dislike),
+            docPath: purchasedContent.content.docPath!),
         const SizedBox(
           width: 50,
         ),

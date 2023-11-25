@@ -66,23 +66,22 @@ class ReviewButton extends StatelessWidget {
         'review.$reviewText': FieldValue.increment(1),
       });
 
-      DocumentReference<Map<String, dynamic>> docRef =
-          FirebaseFirestore.instance.collection('user').doc(docID);
+      DocumentReference<Map<String, dynamic>> docRef = FirebaseFirestore
+          .instance
+          .collection('user')
+          .doc(getCurrentUserUid());
 
       DocumentSnapshot<Map<String, dynamic>> docSnapshot = await docRef.get();
 
       if (docSnapshot.exists) {
-        List<dynamic> purchaseContents =
+        List<dynamic> purchasedContents =
             docSnapshot.data()?['purchasedContents'];
 
-        List<Map<String, dynamic>> updatedPurchaseContents =
-            purchaseContents.map((item) {
-          Map<String, dynamic> updatedItem = Map<String, dynamic>.from(item);
-          updatedItem['review'] = reviewNum;
-          return updatedItem;
-        }).toList();
+        Map<String, dynamic> updatedItem =
+            Map<String, dynamic>.from(purchasedContents[index]);
+        updatedItem['review'] = reviewNum;
 
-        await docRef.update({'purchaseContents': updatedPurchaseContents});
+        await docRef.update({'purchasedContents': purchasedContents});
       } else {
         print('문서를 찾을 수 없습니다.');
       }
@@ -93,9 +92,30 @@ class ReviewButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       return IconButton(
-        onPressed: () {
+        onPressed: () async {
+          bool isReviewNull = false;
+
+          DocumentReference<Map<String, dynamic>> docRef = FirebaseFirestore
+              .instance
+              .collection('user')
+              .doc(getCurrentUserUid());
+
+          DocumentSnapshot<Map<String, dynamic>> docSnapshot =
+              await docRef.get();
+
+          if (docSnapshot.exists) {
+            List<dynamic> purchasedContents =
+                docSnapshot.data()?['purchasedContents'];
+
+            dynamic item = purchasedContents[index];
+            if (item['review'] == null) {
+              isReviewNull = true;
+            }
+          } else {
+            print('문서를 찾을 수 없습니다.');
+          }
           // 기존에 리뷰가 등록되었다면 동작하지 않도록 처리
-          if (reviewController.selectedReview.value.isEmpty) {
+          if (reviewController.selectedReview.value.isEmpty || isReviewNull) {
             Get.defaultDialog(
               // ... 이전과 동일한 다이얼로그 코드 ...
               title: '리뷰 선택',
