@@ -14,8 +14,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool hasAppBarLogo;
   final bool isMyPage; // TODO: 마이페이지에서는 마이페이지로 이동 대신 탈퇴
 
-   CustomAppBar(
-      {super.key, this.hasAppBarLogo = true, this.isMyPage = false});
+  CustomAppBar({super.key, this.hasAppBarLogo = true, this.isMyPage = false});
 
   final purchaseController = Get.find<PurchasedController>();
 
@@ -60,7 +59,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const CircularProgressIndicator();
           } else if (snapshot.hasError) {
-            return Text('Error: ${snapshot.error}',
+            return Text(
+              'Error: ${snapshot.error}',
             );
           } else {
             return _buildAppBarAction(
@@ -80,14 +80,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 //TODO : 탈퇴 기능
                 _showDeleteAccountDialog(context);
               })
-
           : _buildAppBarAction(
               text: '마이페이지',
-              onPressed: () {
-                print(purchaseController.purchasedContents.length);
-                goToMyPage(context);
-              }
-              ),
+              onPressed: () async {
+                await purchaseController.getPurchasedContents();
+                Get.to(() => MyPage());
+              }),
       _buildAppBarAction(
           text: '로그아웃',
           onPressed: () {
@@ -122,7 +120,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             fontSize: 21,
             fontWeight: FontWeight.bold,
             color: Colors.black,
-
           ),
         ),
       ),
@@ -132,7 +129,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => const Size.fromHeight(AppSize.navigationTabHeight);
 }
-
 
 Stream<int> getPoints(String userId) {
   return FirebaseFirestore.instance
@@ -149,11 +145,11 @@ void _showDeleteAccountDialog(BuildContext context) {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text('탈퇴하기'),
+        title: const Text('탈퇴하기'),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('비밀번호를 입력하세요:'),
+            const Text('비밀번호를 입력하세요:'),
             TextFormField(
               obscureText: true,
               obscuringCharacter: '*',
@@ -168,7 +164,7 @@ void _showDeleteAccountDialog(BuildContext context) {
             onPressed: () {
               Navigator.pop(context);
             },
-            child: Text('취소'),
+            child: const Text('취소'),
           ),
           TextButton(
             onPressed: () {
@@ -176,17 +172,19 @@ void _showDeleteAccountDialog(BuildContext context) {
                 // 기존 코드를 변경하지 않고 새로운 함수를 호출합니다.
                 _deleteAccountWithPassword(context, password!);
                 Navigator.pop(context);
-              }
-              else{
+              } else {
                 // SnackBar(content: Text('비밀번호를 입력해주세요.')); -> 안됨
-                Get.snackbar('오류','비밀번호를 입력하세요.'
-                  , snackPosition: SnackPosition.BOTTOM, forwardAnimationCurve: Curves.easeInSine,
+                Get.snackbar(
+                  '오류',
+                  '비밀번호를 입력하세요.',
+                  snackPosition: SnackPosition.BOTTOM,
+                  forwardAnimationCurve: Curves.easeInSine,
                   reverseAnimationCurve: Curves.easeInOut,
                   backgroundColor: Colors.blueGrey[50],
                 );
-            }
+              }
             },
-            child: Text('확인'),
+            child: const Text('확인'),
           ),
         ],
       );
@@ -196,7 +194,6 @@ void _showDeleteAccountDialog(BuildContext context) {
 
 void _deleteAccountWithPassword(BuildContext context, String password) {
   deleteAccount(context, password);
-
 }
 
 void goToMyPage(BuildContext context) async {
@@ -209,17 +206,16 @@ void goToMyPage(BuildContext context) async {
     // 구매한 컨텐츠가 있을 때 마이페이지로 이동
     Get.to(() => MyPage());
     print("구매한 컨텐츠 있음.");
-  }
-  else {
+  } else {
     // 구매한 컨텐츠가 없는 경우 경고창 표시
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('구매 내역이 없습니다'),
+          title: const Text('구매 내역이 없습니다'),
           actions: <Widget>[
             TextButton(
-              child: Text('확인'),
+              child: const Text('확인'),
               onPressed: () {
                 Navigator.pop(context); // 경고창 닫기
               },

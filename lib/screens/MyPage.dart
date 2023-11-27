@@ -28,22 +28,35 @@ class MyPage extends StatelessWidget {
             const SizedBox(
               height: 60,
             ),
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: purchasedController.purchasedContents.length,
-              itemBuilder: (context, index) {
-                final reviewController = reviewControllers[purchasedController
-                    .purchasedContents[index]
-                    .content
-                    .docPath!] ??= ReviewController();
-                return PurchasedContentCard(
-                  index: index,
-                  purchasedContent:
-                      purchasedController.purchasedContents[index],
-                  reviewController: reviewController,
-                );
-              },
-            ),
+            purchasedController.purchasedContents.isEmpty
+                ? const Center(
+                    child: Text(
+                      "구매 내역이 없습니다.",
+                      style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.normal,
+                          color: Color.fromARGB(255, 122, 122, 122)),
+                    ),
+                  )
+                : ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: purchasedController.purchasedContents.length,
+                    itemBuilder: (context, index) {
+                      final reviewController = reviewControllers[
+                          purchasedController.purchasedContents[index].content
+                              .docPath!] ??= ReviewController();
+                      return PurchasedContentCard(
+                        index: purchasedController.purchasedContents.length -
+                            index -
+                            1,
+                        purchasedContent: purchasedController.purchasedContents[
+                            purchasedController.purchasedContents.length -
+                                index -
+                                1],
+                        reviewController: reviewController,
+                      );
+                    },
+                  ),
           ],
         ));
   }
