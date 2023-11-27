@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:software_engineering/controllers/AppSearchController.dart';
 import 'package:software_engineering/screens/Screen.dart';
 import 'package:software_engineering/widgets/SearchScreen/AppSearchBar.dart';
-import 'package:software_engineering/widgets/SearchScreen/ContentCard.dart';
 import 'package:software_engineering/widgets/SearchScreen/SearchContentCard.dart';
 
 class SearchScreen extends StatefulWidget {

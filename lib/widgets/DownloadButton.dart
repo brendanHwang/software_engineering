@@ -7,7 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
 class DownloadButton extends StatelessWidget {
-  const DownloadButton({Key? key}) : super(key: key);
+  final String? docPath;
+  const DownloadButton({Key? key, required this.docPath}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,24 +16,30 @@ class DownloadButton extends StatelessWidget {
         onPressed: () {},
         icon: IconButton(
           onPressed: () async {
-            DocumentSnapshot docSnapshot = await FirebaseFirestore.instance
-                .collection('content')
-                // 나중에 인자로 받아올 것임
-                .doc("f7GD7OgRyzySeAxAhB31")
-                .get();
-            Map<String, dynamic>? data =
-                docSnapshot.data() as Map<String, dynamic>?;
-            String? filePath = data?['filePath'];
+            if (docPath != null) {
+              List<String> pathParts = docPath!.split('/');
+              String docID = pathParts.length > 1 ? pathParts[1] : '';
 
-            if (filePath != null && filePath.isNotEmpty) {
-              String downloadURL =
-                  await FirebaseStorage.instance.ref(filePath).getDownloadURL();
+              DocumentSnapshot docSnapshot = await FirebaseFirestore.instance
+                  .collection('content')
+                  // 나중에 인자로 받아올 것임
+                  .doc(docID)
+                  .get();
+              Map<String, dynamic>? data =
+                  docSnapshot.data() as Map<String, dynamic>?;
+              String? filePath = data?['filePath'];
 
-              AnchorElement anchorElement = AnchorElement(href: downloadURL);
-              anchorElement.download = '';
-              anchorElement.click();
-            } else {
-              print('File not found');
+              if (filePath != null && filePath.isNotEmpty) {
+                String downloadURL = await FirebaseStorage.instance
+                    .ref(filePath)
+                    .getDownloadURL();
+
+                AnchorElement anchorElement = AnchorElement(href: downloadURL);
+                anchorElement.download = '';
+                anchorElement.click();
+              } else {
+                print('File not found');
+              }
             }
           },
           icon: const Icon(Icons.download),

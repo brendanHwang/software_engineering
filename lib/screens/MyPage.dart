@@ -4,12 +4,11 @@ import 'package:software_engineering/controllers/PurchasedController.dart';
 import 'package:software_engineering/screens/Screen.dart';
 import 'package:software_engineering/widgets/PurchasedContentCard.dart';
 import 'package:software_engineering/widgets/ReviewButton.dart';
-import 'package:software_engineering/widgets/SearchScreen/ContentCard.dart';
-import 'package:software_engineering/widgets/ReviewButton.dart';
 
 class MyPage extends StatelessWidget {
   MyPage({Key? key}) : super(key: key);
   final purchasedController = Get.find<PurchasedController>();
+  final Map<String, ReviewController> reviewControllers = {};
 
   @override
   Widget build(BuildContext context) {
@@ -33,9 +32,15 @@ class MyPage extends StatelessWidget {
               shrinkWrap: true,
               itemCount: purchasedController.purchasedContents.length,
               itemBuilder: (context, index) {
+                final reviewController = reviewControllers[purchasedController
+                    .purchasedContents[index]
+                    .content
+                    .docPath!] ??= ReviewController();
                 return PurchasedContentCard(
                   index: index,
-                  purchasedContent: purchasedController.purchasedContents[index],
+                  purchasedContent:
+                      purchasedController.purchasedContents[index],
+                  reviewController: reviewController,
                 );
               },
             ),
