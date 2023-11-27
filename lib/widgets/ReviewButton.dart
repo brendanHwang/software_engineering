@@ -2,11 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 //리뷰를 남겨주는 버튼 위젯 (다운로드 우측에 위치)
 //리뷰를 남겨준 경우 이 버튼은 invisible
-//다운로드 버튼 눌렀을 때 Dialog 표시: 다운로드 버튼을 누르면 Dialog가 나타나도록 구현할 거에요.
-//
-//Dialog에 선택 옵션과 버튼 추가: Dialog에는 사용자가 선택할 수 있는 옵션과 제출, 취소 버튼이 있어야 해요.
-//
-//리뷰 제출 후 버튼 비활성화: 리뷰를 제출하면 다시 해당 자료의 리뷰를 작성할 수 없도록 버튼을 비활성화해야 해요.
 
 import 'package:get/get.dart';
 import 'package:software_engineering/widgets/PayButton.dart';
@@ -191,6 +186,7 @@ class ReviewButton extends StatelessWidget {
                     if (reviewController.selectedReview.value.isNotEmpty) {
                       submitReview(reviewController.selectedReview.value);
                       // 리뷰 제출 후, 리뷰 버튼 비활성화 처리
+                      // purchasedContent.review=1; //임의로
                       reviewController.setSelectedReview('submitted');
                       Get.back();
                     }
@@ -203,7 +199,7 @@ class ReviewButton extends StatelessWidget {
         },
         icon: Icon(
           Icons.reviews_rounded,
-          size: 40,
+          // size: 40,
           // 리뷰가 제출된 콘텐츠의 리뷰 버튼은 회색으로 변경
           color: (reviewController.selectedReview.value == 'submitted' ||
                   !reviewController.isReviewNull.value)
@@ -211,6 +207,6 @@ class ReviewButton extends StatelessWidget {
               : Colors.black,
         ),
       );
-    });
+
   }
 }

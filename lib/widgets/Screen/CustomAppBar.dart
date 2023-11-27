@@ -60,7 +60,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const CircularProgressIndicator();
           } else if (snapshot.hasError) {
-            return Text('Error: ${snapshot.error}');
+            return Text('Error: ${snapshot.error}',
+            );
           } else {
             return _buildAppBarAction(
               text: '포인트: ${snapshot.data}',
@@ -82,10 +83,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
           : _buildAppBarAction(
               text: '마이페이지',
-              onPressed: () async {
-                await purchaseController.getPurchasedContents();
-                Get.to(() => MyPage());
-              }),
+              onPressed: () {
+                print(purchaseController.purchasedContents.length);
+                goToMyPage(context);
+              }
+              ),
       _buildAppBarAction(
           text: '로그아웃',
           onPressed: () {
@@ -120,6 +122,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             fontSize: 21,
             fontWeight: FontWeight.bold,
             color: Colors.black,
+
           ),
         ),
       ),
@@ -153,6 +156,7 @@ void _showDeleteAccountDialog(BuildContext context) {
             Text('비밀번호를 입력하세요:'),
             TextFormField(
               obscureText: true,
+              obscuringCharacter: '*',
               onChanged: (value) {
                 password = value;
               },
@@ -193,4 +197,36 @@ void _showDeleteAccountDialog(BuildContext context) {
 void _deleteAccountWithPassword(BuildContext context, String password) {
   deleteAccount(context, password);
 
+}
+
+void goToMyPage(BuildContext context) async {
+  final purchasedController = Get.find<PurchasedController>();
+
+  // 데이터를 가져오고나서 페이지로 이동
+  await purchasedController.getPurchasedContents();
+
+  if (purchasedController.purchasedContents.isNotEmpty) {
+    // 구매한 컨텐츠가 있을 때 마이페이지로 이동
+    Get.to(() => MyPage());
+    print("구매한 컨텐츠 있음.");
+  }
+  else {
+    // 구매한 컨텐츠가 없는 경우 경고창 표시
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('구매 내역이 없습니다'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('확인'),
+              onPressed: () {
+                Navigator.pop(context); // 경고창 닫기
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 }

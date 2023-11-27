@@ -7,7 +7,6 @@ import 'package:software_engineering/controllers/LoginController.dart';
 import 'package:software_engineering/controllers/PurchasedController.dart';
 import 'package:software_engineering/controllers/UploadController.dart';
 import 'package:software_engineering/screens/AuthenticationWrapper.dart';
-import 'package:software_engineering/screens/SearchScreen.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -27,21 +26,21 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Get.lazyPut(() => AppSearchController());
-    Get.lazyPut(() => UserController());
     Get.lazyPut(() => PurchasedController());
     Get.lazyPut(() => UploadController());
     Get.lazyPut(() => PurchasedController());
+    Get.lazyPut(() => UserController());
 
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'software engineering',
       theme: ThemeData(
+        fontFamily: 'BMDOHYEON',//폰트적
         colorScheme:
             ColorScheme.fromSeed(seedColor: const Color(AppColor.mainColor)),
         useMaterial3: true,
       ),
       home: const AuthenticationWrapper(),
-      // home: SearchScreen(),
     );
   }
 }

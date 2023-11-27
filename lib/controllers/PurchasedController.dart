@@ -4,7 +4,7 @@ import 'package:software_engineering/utils/firebase_firestore_util.dart' as fbu;
 
 class PurchasedController extends GetxController{
 
-  List<PurchasedContent> purchasedContents = [];
+  var purchasedContents = <PurchasedContent>[].obs;
 
     Future<void> getPurchasedContents() async{
      await fbu.getPurchasedContents();
@@ -13,5 +13,8 @@ class PurchasedController extends GetxController{
      }
   }
 
+  void updateReview(int index, int newReview) {
+    purchasedContents[index].review = newReview;
 
+  }
 }

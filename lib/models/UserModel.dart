@@ -32,8 +32,8 @@ class UserModel {
     }
 
     // 비밀번호 길이 확인
-    if(password.length < 8) {
-      Get.snackbar(AppString.signupCheckSnackTitle, "비밀번호는 8자리 이상이어야 합니다.");
+    if(password.length < 10) {
+      Get.snackbar(AppString.signupCheckSnackTitle, "비밀번호는 10자리 이상이어야 합니다.");
       return false;
     }
 
@@ -74,5 +74,15 @@ class UserModel {
   @override
   String toString() {
     return 'UserModel{name: $name, email: $email, password: $password, passwordApprove: $passwordApprove, purchasedContents: $purchasedContents}';
+  }
+
+
+  void reset() {
+    name = '';
+    email = '';
+    password = '';
+    passwordApprove = '';
+    purchasedContents = <Map<String, dynamic>>[];
+    point = 0;
   }
 }

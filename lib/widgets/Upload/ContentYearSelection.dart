@@ -41,7 +41,7 @@ class _ContentYearSelectionState extends State<ContentYearSelection> {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext builder) {
-        return Container(
+        return SizedBox(
           height: MediaQuery.of(context).copyWith().size.height / 3,
           child: CupertinoPicker(
             backgroundColor: Colors.white,

@@ -33,7 +33,7 @@ class ContentsInfoScreen extends StatelessWidget {
                     style: const TextStyle(
                         fontSize: 30.0,
                         fontWeight: FontWeight.w400,
-                        fontFamily: 'BMDOHYEN'),
+                    ),
                   ),
                   // 자료 유형
                   Text(
@@ -41,7 +41,7 @@ class ContentsInfoScreen extends StatelessWidget {
                     style: const TextStyle(
                         fontSize: 30.0,
                         fontWeight: FontWeight.w400,
-                        fontFamily: 'BMDOHYEN'),
+                        ),
                   ),
                   // 학과
                   Text(
@@ -49,7 +49,7 @@ class ContentsInfoScreen extends StatelessWidget {
                     style: const TextStyle(
                         fontSize: 30.0,
                         fontWeight: FontWeight.w400,
-                        fontFamily: 'BMDOHYEN'),
+                        ),
                   ),
                 ],
               ),
@@ -60,7 +60,9 @@ class ContentsInfoScreen extends StatelessWidget {
                       normal: content.getReviewString(AppString.normal),
                       dislike: content.getReviewString(AppString.dislike)),
                   // 자료 구매 버튼
-                  const PayButton()
+                  PayButton(
+                    docPath: content.docPath,
+                  )
                 ],
               ),
             ],
@@ -85,11 +87,11 @@ class ContentsInfoScreen extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(30.0),
                 child: Text(
-                  "${content.fileDescription!}",
+                  content.fileDescription!,
                   style: const TextStyle(
                       fontSize: 20.0,
                       fontWeight: FontWeight.w400,
-                      fontFamily: 'BMDOHYEN'),
+                      ),
                 ),
               ),
             ),

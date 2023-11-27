@@ -156,52 +156,43 @@ class WriteScreen extends StatelessWidget {
           "자료 유형 선택",
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
-        Obx(
-          () => ToggleButtons(
-            borderColor: Colors.black,
-            fillColor: Colors.blue,
-            selectedColor: Colors.white,
-            // 선택된 버튼의 내부 텍스트 색상
-            onPressed: (int index) {
-              uploadController.content
-                  .setContentTypeToString(contentTypeIdx: index);
+        SizedBox(
+          height: 50,
+          child: Obx(
+            () =>Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: List<Widget>.generate(4, (int index) {
+                return GestureDetector(
+                  onTap: () {
+                    uploadController.content.setContentTypeToString(contentTypeIdx: index);
+                    for (int i = 0; i < _isSelected.length; i++) {
+                      _isSelected[i] = i == index;
+                    }
+                  },
+                  child: Container(
+                    height: 50,
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.symmetric(horizontal: 16.0),
+                    decoration: BoxDecoration(
+                      color: _isSelected[index] ? Colors.blue : null,
+                      border: Border.all(
+                        color: _isSelected[index] ? Colors.blue : Colors.black,
+                      ),
+                      borderRadius: BorderRadius.circular(4.0),
+                    ),
+                    child: Text(
+                      ["전공", "교양", "취업자료", "기타"][index],
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: _isSelected[index] ? Colors.white : Colors.black,
+                      ),
+                    ),
+                  ),
+                );
+              }),
+            )
 
-              // 선택 상태를 업데이트
-              for (int i = 0; i < _isSelected.length; i++) {
-                _isSelected[i] = i == index;
-              }
-            },
-            isSelected: _isSelected,
-            children: const <Widget>[
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
-                child: Text(
-                  "전공",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
-                child: Text(
-                  "교양",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
-                child: Text(
-                  "취업자료",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
-                child: Text(
-                  "기타",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-              ),
-            ],
           ),
         ),
       ],

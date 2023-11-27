@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:software_engineering/models/UserModel.dart';
 
 class PayButton extends StatelessWidget {
-  const PayButton({Key? key, this.docPath}) : super(key: key);
+  const PayButton({Key? key, required this.docPath}) : super(key: key);
 
   final docPath;
   @override

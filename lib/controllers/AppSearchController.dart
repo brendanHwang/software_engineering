@@ -16,8 +16,15 @@ class AppSearchController extends GetxController {
   }
 
   Future<bool> search(String keyword) async {
-    if (keyword.length < 2) {
+
+    if (keyword == ' ' || keyword == '') {
+      Get.snackbar('검색어 오류', '원하는 검색어를 입력해주세요.');
+      return false;
+    }else if (keyword.length < 2) {
       Get.snackbar('검색어 오류', '검색어는 2글자 이상이어야 합니다.');
+      return false;
+    }else if (keyword.length > 10) {
+      Get.snackbar('검색어 오류', '검색어는 10글자 이하이어야 합니다.');
       return false;
     }
 
@@ -29,6 +36,11 @@ class AppSearchController extends GetxController {
     //   print(filteredContents[i].toString());
     // }
     sort();
+    if(filteredContents.isEmpty) {
+      Get.snackbar('검색 결과 없음', '검색 결과가 없습니다.');
+      return false;
+    }
+
     searchHistory.addIf(!searchHistory.contains(keyword), keyword);
 
 
