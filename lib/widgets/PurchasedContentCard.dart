@@ -85,12 +85,12 @@ class PurchasedContentCard extends StatelessWidget {
               ],
             ),
             const Gap(
-               30,
+              30,
             ),
           ],
         ),
         const Spacer(),
-        IconReviewView(
+        IconReviewButton(
             like: purchasedContent.content.getReviewString(AppString.like),
             normal: purchasedContent.content.getReviewString(AppString.normal),
             dislike:
@@ -106,7 +106,6 @@ class PurchasedContentCard extends StatelessWidget {
           index: index,
         ),
       ],
-
     );
   }
 }

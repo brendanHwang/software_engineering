@@ -207,6 +207,6 @@ class ReviewButton extends StatelessWidget {
               : Colors.black,
         ),
       );
-
+    });
   }
 }
