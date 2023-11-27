@@ -11,6 +11,7 @@ class MainPage extends StatelessWidget {
   final TextEditingController _controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
+
     return Screen(
       hasAppBarLogo: false,
       floatingButton: FloatingActionButton(
