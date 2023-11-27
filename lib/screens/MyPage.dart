@@ -3,10 +3,12 @@ import 'package:get/get.dart';
 import 'package:software_engineering/controllers/PurchasedController.dart';
 import 'package:software_engineering/screens/Screen.dart';
 import 'package:software_engineering/widgets/PurchasedContentCard.dart';
+import 'package:software_engineering/widgets/ReviewButton.dart';
 
 class MyPage extends StatelessWidget {
   MyPage({Key? key}) : super(key: key);
   final purchasedController = Get.find<PurchasedController>();
+  final Map<String, ReviewController> reviewControllers = {};
 
   @override
   Widget build(BuildContext context) {
@@ -26,16 +28,35 @@ class MyPage extends StatelessWidget {
             const SizedBox(
               height: 60,
             ),
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: purchasedController.purchasedContents.length,
-              itemBuilder: (context, index) {
-                return PurchasedContentCard(
-                  index: index,
-                  purchasedContent: purchasedController.purchasedContents[index],
-                );
-              },
-            ),
+            purchasedController.purchasedContents.isEmpty
+                ? const Center(
+                    child: Text(
+                      "구매 내역이 없습니다.",
+                      style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.normal,
+                          color: Color.fromARGB(255, 122, 122, 122)),
+                    ),
+                  )
+                : ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: purchasedController.purchasedContents.length,
+                    itemBuilder: (context, index) {
+                      final reviewController = reviewControllers[
+                          purchasedController.purchasedContents[index].content
+                              .docPath!] ??= ReviewController();
+                      return PurchasedContentCard(
+                        index: purchasedController.purchasedContents.length -
+                            index -
+                            1,
+                        purchasedContent: purchasedController.purchasedContents[
+                            purchasedController.purchasedContents.length -
+                                index -
+                                1],
+                        reviewController: reviewController,
+                      );
+                    },
+                  ),
           ],
         ));
   }

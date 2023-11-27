@@ -14,15 +14,42 @@ class PayButton extends StatelessWidget {
         onPressed: () {},
         icon: IconButton(
           onPressed: () async {
-
-           await purchaseContent(docPath);
+            _showConfirmationDialog(context);
           },
           icon: const Icon(Icons.payment_outlined),
           iconSize: 40,
           color: Colors.black,
         ));
   }
+
+  void _showConfirmationDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('구매 확인'),
+          content: const Text('해당 자료를 구매하시겠습니까?'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('확인'),
+              onPressed: () async {
+                await purchaseContent(docPath);
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('취소'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 }
+
 Future<void> purchaseContent(String docPath) async {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   User? user = FirebaseAuth.instance.currentUser;
@@ -44,10 +71,12 @@ Future<void> purchaseContent(String docPath) async {
       return;
     }
 
-    UserModel userModel = UserModel.fromDocument(userSnapshot.data() as Map<String, dynamic>);
+    UserModel userModel =
+        UserModel.fromDocument(userSnapshot.data() as Map<String, dynamic>);
 
     // 이미 구매한 항목인지 확인
-    bool alreadyPurchased = userModel.purchasedContents!.any((purchase) => purchase['docPath'] == docPath);
+    bool alreadyPurchased = userModel.purchasedContents!
+        .any((purchase) => purchase['docPath'] == docPath);
 
     if (alreadyPurchased) {
       Get.snackbar('이미 구매한 컨텐츠입니다', '마이페이지에서 확인해주세요');
@@ -62,7 +91,11 @@ Future<void> purchaseContent(String docPath) async {
     }
 
     // 새로운 구매 항목
-    Map<String, dynamic> newPurchase = {'docPath': docPath, 'review': null, 'purchasedDateTime': Timestamp.now()};
+    Map<String, dynamic> newPurchase = {
+      'docPath': docPath,
+      'review': null,
+      'purchasedDateTime': Timestamp.now()
+    };
 
     // 구매 항목 추가 및 포인트 감소
     tx.update(userRef, {
@@ -74,7 +107,6 @@ Future<void> purchaseContent(String docPath) async {
     print('Transaction failed: $e');
   });
 }
-
 
 String getCurrentUserUid() {
   User? user = FirebaseAuth.instance.currentUser;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get.dart';
 import 'package:software_engineering/constants/AppString.dart';
 import 'package:software_engineering/models/PurchasedContent.dart';
 import 'package:software_engineering/widgets/DownloadButton.dart';
@@ -12,9 +13,11 @@ class PurchasedContentCard extends StatelessWidget {
     Key? key,
     required this.index,
     required this.purchasedContent,
+    required this.reviewController,
   }) : super(key: key);
   final int index;
   final PurchasedContent purchasedContent;
+  final ReviewController reviewController;
 
   @override
   Widget build(BuildContext context) {
@@ -82,21 +85,27 @@ class PurchasedContentCard extends StatelessWidget {
               ],
             ),
             const Gap(
-               30,
+              30,
             ),
           ],
         ),
         const Spacer(),
-        IconReviewView(
+        IconReviewButton(
             like: purchasedContent.content.getReviewString(AppString.like),
             normal: purchasedContent.content.getReviewString(AppString.normal),
             dislike:
-                purchasedContent.content.getReviewString(AppString.dislike)),
-        const Gap(25),
+                purchasedContent.content.getReviewString(AppString.dislike),
+            docPath: purchasedContent.content.docPath!),
+        const SizedBox(
+          width: 50,
+        ),
         DownloadButton(docPath: purchasedContent.content.docPath),
-        ReviewButton(purchasedContent: purchasedContent, index: index,),
+        ReviewButton(
+          reviewController: reviewController,
+          docPath: purchasedContent.content.docPath,
+          index: index,
+        ),
       ],
-
     );
   }
 }

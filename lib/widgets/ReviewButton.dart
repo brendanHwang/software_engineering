@@ -1,78 +1,127 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 //리뷰를 남겨주는 버튼 위젯 (다운로드 우측에 위치)
 //리뷰를 남겨준 경우 이 버튼은 invisible
 
 import 'package:get/get.dart';
-import 'package:software_engineering/controllers/PurchasedController.dart';
-import 'package:software_engineering/controllers/PwChangeController.dart';
-import 'package:software_engineering/models/PurchasedContent.dart';
+import 'package:software_engineering/widgets/PayButton.dart';
 
 class ReviewController extends GetxController {
   var selectedReview = RxString('');
-
+  var isReviewNull = RxBool(false);
   void setSelectedReview(String review) {
     selectedReview(review);
   }
+
+  void setIsReviewNull(bool value) {
+    isReviewNull(value);
+  }
 }
 
-class ReviewButton extends StatefulWidget {
-  final PurchasedContent purchasedContent;
+class ReviewButton extends StatelessWidget {
+  final ReviewController reviewController;
+  final String? docPath;
   final int index;
 
-  ReviewButton({Key? key, required this.purchasedContent,required this.index}) : super(key: key);
+  const ReviewButton({
+    Key? key,
+    required this.reviewController,
+    this.docPath,
+    required this.index,
+  }) : super(key: key);
 
-  @override
-  State<ReviewButton> createState() => _ReviewButtonState();
-}
+  // 리뷰 제출
+  void submitReview(String reviewType) async {
+    // 리뷰 제출 후 리뷰 상태 업데이트
+    // 예: selectedReview.value = 'submitted';
 
-class _ReviewButtonState extends State<ReviewButton> {
-  final ReviewController reviewController = Get.put(ReviewController());
+    String reviewText = '';
+    int? reviewNum;
 
-  final purchasedController = Get.find<PurchasedController>();
-
-  String selectedReview = '';
-
-  bool isReviewSubmitted = false;
-
-  int reviewIndex = 1;
-
-  void submitReview() {
-    // 리뷰 제출
-    // 리뷰 제출 후, 리뷰 버튼 비활성화 처리
-    if(reviewController.selectedReview.value == 'like') {
-      purchasedController.updateReview(widget.index, 1);
-      purchasedController.purchasedContents[widget.index].content.review["좋아요"] = purchasedController.purchasedContents[widget.index].content.review["좋아요"]! + 1;
-    } else if(reviewController.selectedReview.value == 'normal') {
-      purchasedController.updateReview(widget.index, 0);
-      purchasedController.purchasedContents[widget.index].content.review["보통이에요"] = purchasedController.purchasedContents[widget.index].content.review["보통이에요"]! + 1;
-    } else if(reviewController.selectedReview.value == 'dislike') {
-      purchasedController.updateReview(widget.index, -1);
-      purchasedController.purchasedContents[widget.index].content.review["별로에요"] = purchasedController.purchasedContents[widget.index].content.review["별로에요"]! + 1;
+    switch (reviewType) {
+      case 'like':
+        reviewText = '좋아요';
+        reviewNum = 1;
+        break;
+      case 'normal':
+        reviewText = '보통이에요';
+        reviewNum = 0;
+        break;
+      case 'dislike':
+        reviewText = '싫어요';
+        reviewNum = -1;
+        break;
+      default:
+        reviewText = '';
+        reviewNum = null;
+        break;
     }
-    setState(() {
-      isReviewSubmitted = true;
-    });
+    //content 에 review 값 반영
+    if (docPath != null) {
+      List<String> pathParts = docPath!.split('/');
+      String docID = pathParts.length > 1 ? pathParts[1] : '';
 
+      FirebaseFirestore.instance.collection('content').doc(docID).update({
+        'review.$reviewText': FieldValue.increment(1),
+      });
 
-    // TODO : firestore에 리뷰 업데이트 purchasedController.purchasedContents[widget.index].review 값을 기준으로
-    print("purchasedController.purchasedContents[widget.index].review: ${purchasedController.purchasedContents[widget.index].review}");
+      //User 에 review 여부 반영
+      //'좋아요'는 1, '보통이에요'는 0, '싫어요'는 -1
+      DocumentReference<Map<String, dynamic>> docRef = FirebaseFirestore
+          .instance
+          .collection('user')
+          .doc(getCurrentUserUid());
 
-    // TODO : user collection의 firebaseauth의 userid 해당하는 document의 purchasedContents 필드에 index에 해당하는 review 필드 업데이트
-    print("firebaseAuth.currentUser!.uid: ${firebaseAuth.currentUser!.uid}");
-    print("widget.index: ${widget.index}");
+      DocumentSnapshot<Map<String, dynamic>> docSnapshot = await docRef.get();
 
-    // TODO : content collection의 docPath에 해당하는 document의 review 필드 업데이트
-    print("purchasedController.purchasedContents[widget.index].content.docPath: ${purchasedController.purchasedContents[widget.index].content.docPath}");
+      if (docSnapshot.exists) {
+        List<dynamic> purchasedContents =
+            docSnapshot.data()?['purchasedContents'];
+
+        Map<String, dynamic> updatedItem =
+            Map<String, dynamic>.from(purchasedContents[index]);
+        updatedItem['review'] = reviewNum;
+
+        purchasedContents[index] = updatedItem;
+
+        await docRef.update({'purchasedContents': purchasedContents});
+      } else {
+        print('문서를 찾을 수 없습니다.');
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    return Obx(() {
+      final isReviewNullValue = reviewController.isReviewNull.value;
 
-    return
-       IconButton(
+      // Firestore 데이터 확인하여 isReviewNull 값 업데이트
+      FirebaseFirestore.instance
+          .collection('user')
+          .doc(getCurrentUserUid())
+          .get()
+          .then((docSnapshot) {
+        if (docSnapshot.exists) {
+          List<dynamic> purchasedContents =
+              docSnapshot.data()?['purchasedContents'];
+
+          dynamic item = purchasedContents[index];
+          //Firestore 에서 review가 null인지 확인
+          if (item['review'] == null) {
+            reviewController.setIsReviewNull(true);
+          }
+        } else {
+          print('문서를 찾을 수 없습니다.');
+        }
+      }).catchError((error) {
+        print('Firestore 데이터 가져오기 에러: $error');
+      });
+      return IconButton(
         onPressed: () {
           // 기존에 리뷰가 등록되었다면 동작하지 않도록 처리
-          if ( purchasedController.purchasedContents[widget.index].review == null) {
+          if (reviewController.selectedReview.value.isEmpty &&
+              reviewController.isReviewNull.value) {
             Get.defaultDialog(
               // ... 이전과 동일한 다이얼로그 코드 ...
               title: '리뷰 선택',
@@ -82,13 +131,13 @@ class _ReviewButtonState extends State<ReviewButton> {
                   ListTile(
                     title: const Text('좋아요'),
                     leading: Obx(() => Icon(
-                      reviewController.selectedReview.value == 'like'
-                          ? Icons.check_circle
-                          : Icons.radio_button_unchecked,
-                      color: reviewController.selectedReview.value == 'like'
-                          ? Colors.green
-                          : Colors.grey,
-                    )),
+                          reviewController.selectedReview.value == 'like'
+                              ? Icons.check_circle
+                              : Icons.radio_button_unchecked,
+                          color: reviewController.selectedReview.value == 'like'
+                              ? Colors.green
+                              : Colors.grey,
+                        )),
                     onTap: () {
                       reviewController.setSelectedReview('like');
                     },
@@ -96,14 +145,14 @@ class _ReviewButtonState extends State<ReviewButton> {
                   ListTile(
                     title: const Text('보통이에요'),
                     leading: Obx(() => Icon(
-                      reviewController.selectedReview.value == 'normal'
-                          ? Icons.check_circle
-                          : Icons.radio_button_unchecked,
-                      color: reviewController.selectedReview.value ==
-                          'normal'
-                          ? Colors.green
-                          : Colors.grey,
-                    )),
+                          reviewController.selectedReview.value == 'normal'
+                              ? Icons.check_circle
+                              : Icons.radio_button_unchecked,
+                          color:
+                              reviewController.selectedReview.value == 'normal'
+                                  ? Colors.green
+                                  : Colors.grey,
+                        )),
                     onTap: () {
                       reviewController.setSelectedReview('normal');
                     },
@@ -111,14 +160,14 @@ class _ReviewButtonState extends State<ReviewButton> {
                   ListTile(
                     title: const Text('싫어요'),
                     leading: Obx(() => Icon(
-                      reviewController.selectedReview.value == 'dislike'
-                          ? Icons.check_circle
-                          : Icons.radio_button_unchecked,
-                      color: reviewController.selectedReview.value ==
-                          'dislike'
-                          ? Colors.green
-                          : Colors.grey,
-                    )),
+                          reviewController.selectedReview.value == 'dislike'
+                              ? Icons.check_circle
+                              : Icons.radio_button_unchecked,
+                          color:
+                              reviewController.selectedReview.value == 'dislike'
+                                  ? Colors.green
+                                  : Colors.grey,
+                        )),
                     onTap: () {
                       reviewController.setSelectedReview('dislike');
                     },
@@ -135,7 +184,7 @@ class _ReviewButtonState extends State<ReviewButton> {
                 TextButton(
                   onPressed: () {
                     if (reviewController.selectedReview.value.isNotEmpty) {
-                      submitReview();
+                      submitReview(reviewController.selectedReview.value);
                       // 리뷰 제출 후, 리뷰 버튼 비활성화 처리
                       // purchasedContent.review=1; //임의로
                       reviewController.setSelectedReview('submitted');
@@ -152,11 +201,12 @@ class _ReviewButtonState extends State<ReviewButton> {
           Icons.reviews_rounded,
           // size: 40,
           // 리뷰가 제출된 콘텐츠의 리뷰 버튼은 회색으로 변경
-          color: isReviewSubmitted
+          color: (reviewController.selectedReview.value == 'submitted' ||
+                  !reviewController.isReviewNull.value)
               ? Colors.grey
               : Colors.black,
         ),
       );
-
+    });
   }
 }
