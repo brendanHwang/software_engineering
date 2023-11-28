@@ -14,10 +14,12 @@ class PurchasedContentCard extends StatelessWidget {
     required this.index,
     required this.purchasedContent,
     required this.reviewController,
+    required this.length,
   }) : super(key: key);
   final int index;
   final PurchasedContent purchasedContent;
   final ReviewController reviewController;
+  final int length;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +34,7 @@ class PurchasedContentCard extends StatelessWidget {
               children: [
                 SizedBox(
                   width: 30,
-                  child: Text('${index + 1}.',
+                  child: Text('${length - index}.',
                       style: const TextStyle(
                           fontSize: 25,
                           fontWeight: FontWeight.bold,
