@@ -19,26 +19,28 @@ class AuthenticationWrapper extends StatelessWidget {
           } else {
             // 사용자가 로그인한 경우
             // 대화 상자를 표시하고, 사용자가 이를 닫으면 MainPage로 이동
-            Future.delayed(Duration.zero, () async {
-              await Get.dialog(
-                AlertDialog(
-                  content: Text('다들 조금만 더 힘내자 화이팅!', style: TextStyle(
-                    fontSize: 150,
-                  ),),
-                  actions: <Widget>[
-                    TextButton(
-                      child: const Text('화이팅!'),
-                      onPressed: () {
-                        Get.back(); // 대화 상자 닫기
-                      },
-                    ),
-                  ],
-                ),
-                barrierDismissible: false, // 배경 클릭으로 대화 상자를 닫을 수 없게 설정
-              );
-              Get.off(MainPage()); // MainPage로 이동
-            });
-            return Container(); // 빈 컨테이너를 반환하며 실제 페이지 이동은 대화 상자 후에 발생
+            // Future.delayed(Duration.zero, () async {
+            //   await Get.dialog(
+            //     AlertDialog(
+            //       content: Text('다들 조금만 더 힘내자 화이팅!', style: TextStyle(
+            //         fontSize: 150,
+            //       ),),
+            //       actions: <Widget>[
+            //         TextButton(
+            //           child: const Text('화이팅!'),
+            //           onPressed: () {
+            //             Get.back(); // 대화 상자 닫기
+            //           },
+            //         ),
+            //       ],
+            //     ),
+            //     barrierDismissible: false, // 배경 클릭으로 대화 상자를 닫을 수 없게 설정
+            //   );
+            //   Get.off(MainPage()); // MainPage로 이동
+            // });
+            // return Container(); // 빈 컨테이너를 반환하며 실제 페이지 이동은 대화 상자 후에 발생
+
+            return MainPage();
           }
         }
 
