@@ -41,9 +41,9 @@ Future<void> uploadContent() async {
       // 콘텐츠 저장 및 포인트 증가
       tx.set(contentRef, uploadController.content.toJson());
       tx.update(userRef, {'point': FieldValue.increment(6)});
-
-      Get.to(() => MainPage());
       Get.snackbar('업로드 성공', '성공적으로 업로드 되었습니다');
+
+
     });
   } catch (e) {
     print('Error uploading content $e');

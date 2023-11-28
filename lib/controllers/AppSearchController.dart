@@ -57,6 +57,7 @@ class AppSearchController extends GetxController {
         : searchedContents
             .where((element) => element.contentType == filterValue.value)
             .toList();
+    sort();
   }
 
   void sort() {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:software_engineering/controllers/UploadController.dart';
+import 'package:software_engineering/screens/MainPage.dart';
 import 'package:software_engineering/screens/Screen.dart';
 import 'package:software_engineering/widgets/Upload/ContentYearSelection.dart';
 
@@ -75,6 +76,7 @@ class WriteScreen extends StatelessWidget {
                 Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                   ElevatedButton(
                     onPressed: () {
+                      Get.to(() => MainPage());
                       uploadController.upload();
                     },
                     style: ElevatedButton.styleFrom(
@@ -158,42 +160,42 @@ class WriteScreen extends StatelessWidget {
         ),
         SizedBox(
           height: 50,
-          child: Obx(
-            () =>Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: List<Widget>.generate(4, (int index) {
-                return GestureDetector(
-                  onTap: () {
-                    uploadController.content.setContentTypeToString(contentTypeIdx: index);
-                    for (int i = 0; i < _isSelected.length; i++) {
-                      _isSelected[i] = i == index;
-                    }
-                  },
-                  child: Container(
-                    height: 50,
-                    alignment: Alignment.center,
-                    padding: EdgeInsets.symmetric(horizontal: 16.0),
-                    decoration: BoxDecoration(
-                      color: _isSelected[index] ? Colors.blue : null,
-                      border: Border.all(
-                        color: _isSelected[index] ? Colors.blue : Colors.black,
+          child: Obx(() => Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: List<Widget>.generate(4, (int index) {
+                  return GestureDetector(
+                    onTap: () {
+                      uploadController.content
+                          .setContentTypeToString(contentTypeIdx: index);
+                      for (int i = 0; i < _isSelected.length; i++) {
+                        _isSelected[i] = i == index;
+                      }
+                    },
+                    child: Container(
+                      height: 50,
+                      alignment: Alignment.center,
+                      padding: EdgeInsets.symmetric(horizontal: 16.0),
+                      decoration: BoxDecoration(
+                        color: _isSelected[index] ? Colors.blue : null,
+                        border: Border.all(
+                          color:
+                              _isSelected[index] ? Colors.blue : Colors.black,
+                        ),
+                        borderRadius: BorderRadius.circular(4.0),
                       ),
-                      borderRadius: BorderRadius.circular(4.0),
-                    ),
-                    child: Text(
-                      ["전공", "교양", "취업자료", "기타"][index],
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: _isSelected[index] ? Colors.white : Colors.black,
+                      child: Text(
+                        ["전공", "교양", "취업자료", "기타"][index],
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color:
+                              _isSelected[index] ? Colors.white : Colors.black,
+                        ),
                       ),
                     ),
-                  ),
-                );
-              }),
-            )
-
-          ),
+                  );
+                }),
+              )),
         ),
       ],
     );
@@ -217,8 +219,8 @@ class WriteScreen extends StatelessWidget {
           border: OutlineInputBorder(),
           labelText: '자료 내용*',
         ));
-
   }
+
   _buildProfNameTextField() {
     return TextField(
         onChanged: (profName) {
@@ -228,8 +230,5 @@ class WriteScreen extends StatelessWidget {
           border: OutlineInputBorder(),
           labelText: '교수명',
         ));
-
   }
-
-
 }

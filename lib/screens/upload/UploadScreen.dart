@@ -165,11 +165,7 @@ class UploadScreen extends StatelessWidget {
                   const SizedBox(height: 20),
                   _buildBrowseFileButton(),
                   const SizedBox(height: 20),
-                  const Text(
-                    "업로드 할 수 있는 자료의 형식은 doc, docx, hwp, pdf, ppt, txt, xls, xlsx, JPEG, GIF, BMP, PNG 입니다.\n"
-                        "파일 크기 제한은 20MB입니다.",
-                    style: TextStyle(fontSize: 15, color: Color(0xFF888888)),
-                  ),
+
                 ],
               ),
             ),
