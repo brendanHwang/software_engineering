@@ -54,6 +54,7 @@ class MyPage extends StatelessWidget {
                                 index -
                                 1],
                         reviewController: reviewController,
+                        length: purchasedController.purchasedContents.length,
                       );
                     },
                   ),
