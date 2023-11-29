@@ -43,7 +43,6 @@ class AppSearchController extends GetxController {
 
     searchHistory.addIf(!searchHistory.contains(keyword), keyword);
 
-
     // print('검색 결과');
     // for(var i = 0; i < filteredContents.length; i++) {
     //   print(filteredContents[i].title);
